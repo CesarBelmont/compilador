@@ -34,7 +34,7 @@ namespace Compilador
             abrir.Title = "Abrir archivo";
             if (abrir.ShowDialog() == DialogResult.OK)
             {
-                System.IO.StreamReader sr= new System.IO.StreamReader(abrir.FileName);
+                System.IO.StreamReader sr = new System.IO.StreamReader(abrir.FileName);
                 editorDeTexto.Text = sr.ReadToEnd();
                 sr.Close();
             }
@@ -46,7 +46,7 @@ namespace Compilador
             SaveFileDialog guardar = new SaveFileDialog();
             guardar.Filter = "Archivos de texto (.txt)|*.txt";
             guardar.Title = "Guardar archivo";
-            if(guardar.ShowDialog()== DialogResult.OK)
+            if (guardar.ShowDialog() == DialogResult.OK)
             {
                 System.IO.StreamWriter sw = new System.IO.StreamWriter(guardar.FileName);
                 sw.Write(editorDeTexto.Text);
@@ -82,6 +82,31 @@ namespace Compilador
         private void seleccionartodoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             editorDeTexto.SelectAll();
+        }
+
+        private void editorDeTexto_TextChanged(object sender, EventArgs e)
+        {
+            
+            Col.Text = editorDeTexto.TextLength.ToString();
+            Lin.Text = editorDeTexto.Lines.Length.ToString();
+            if (editorDeTexto.Lines.Length == 0)
+            {
+                Lin.Text = "1";
+            }
+            if (editorDeTexto.TextLength == 0)
+            {
+                Col.Text = "1";
+            }
+
+        }
+
+        private void editorDeTexto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            var lineas = editorDeTexto.Lines.Length;   
+            if (e.KeyChar == (Char)13)
+            {
+                contadorLineas.Text += "\n" + lineas.ToString();
+            }
         }
     }
 }
