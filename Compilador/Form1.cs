@@ -15,11 +15,17 @@ namespace Compilador
         public Form1()
         {
             InitializeComponent();
+            editorDeTexto.SelectAll();
+            editorDeTexto.SelectionIndent += 25;
+            editorDeTexto.SelectionRightIndent += 25;
+            editorDeTexto.DeselectAll();
+
         }
 
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             editorDeTexto.Clear();
+            contadorLineas.Text = "1";
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -47,6 +53,18 @@ namespace Compilador
             guardar.Filter = "Archivos de texto (.txt)|*.txt";
             guardar.Title = "Guardar archivo";
             if (guardar.ShowDialog() == DialogResult.OK)
+            {
+                System.IO.StreamWriter sw = new System.IO.StreamWriter(guardar.FileName);
+                sw.Write(editorDeTexto.Text);
+                sw.Close();
+            }
+        }
+        private void guardarComoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog guardar = new SaveFileDialog();
+            guardar.Filter = "Archivos de texto (.txt)|*.txt";
+            guardar.Title = "Guardar como...";
+            if(guardar.ShowDialog()== DialogResult.OK)
             {
                 System.IO.StreamWriter sw = new System.IO.StreamWriter(guardar.FileName);
                 sw.Write(editorDeTexto.Text);
@@ -106,7 +124,10 @@ namespace Compilador
             if (e.KeyChar == (Char)13)
             {
                 contadorLineas.Text += "\n" + lineas.ToString();
+
             }
         }
+
+        
     }
 }
