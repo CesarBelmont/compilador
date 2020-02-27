@@ -12,6 +12,7 @@ namespace Compilador
 {
     public partial class Form1 : Form
     {
+        private int cont = 1; //Contador de lineas
         public Form1()
         {
             InitializeComponent();
@@ -19,13 +20,12 @@ namespace Compilador
             editorDeTexto.SelectionIndent += 25;
             editorDeTexto.SelectionRightIndent += 25;
             editorDeTexto.DeselectAll();
-
         }
 
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            editorDeTexto.Clear();
-            contadorLineas.Text = "1";
+            editorDeTexto.Clear(); //Elimina todo el contenido del editor de texto actual
+            contadorLineas.Text = "1"; //Limpieza del label de numero de lineas
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -35,13 +35,13 @@ namespace Compilador
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog abrir = new OpenFileDialog();
+            OpenFileDialog abrir = new OpenFileDialog(); //Abre un nuevo cuadro de dialogo
             abrir.Filter = "Archivos de texto (.txt)|*.txt";
             abrir.Title = "Abrir archivo";
-            if (abrir.ShowDialog() == DialogResult.OK)
+            if (abrir.ShowDialog() == DialogResult.OK) //Si se decide abrir ese archivo
             {
-                System.IO.StreamReader sr = new System.IO.StreamReader(abrir.FileName);
-                editorDeTexto.Text = sr.ReadToEnd();
+                System.IO.StreamReader sr = new System.IO.StreamReader(abrir.FileName); //Lector de archivos
+                editorDeTexto.Text = sr.ReadToEnd(); //Escribe todo lo que tenga dicho archivo en el editor
                 sr.Close();
             }
 
@@ -49,22 +49,24 @@ namespace Compilador
 
         private void guardarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog guardar = new SaveFileDialog();
+            SaveFileDialog guardar = new SaveFileDialog(); //Cuadro de dialogo
             guardar.Filter = "Archivos de texto (.txt)|*.txt";
             guardar.Title = "Guardar archivo";
-            if (guardar.ShowDialog() == DialogResult.OK)
+            if (guardar.ShowDialog() == DialogResult.OK) //Si se decide guardar 
             {
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(guardar.FileName);
-                sw.Write(editorDeTexto.Text);
+                System.IO.StreamWriter sw = new System.IO.StreamWriter(guardar.FileName); //Escritor de archivos
+                sw.Write(editorDeTexto.Text); //Guarda todo lo que este en el editor en un archivo nuevo
                 sw.Close();
             }
         }
+
         private void guardarComoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Lo mismo de guardar, basicamente
             SaveFileDialog guardar = new SaveFileDialog();
             guardar.Filter = "Archivos de texto (.txt)|*.txt";
             guardar.Title = "Guardar como...";
-            if(guardar.ShowDialog()== DialogResult.OK)
+            if (guardar.ShowDialog() == DialogResult.OK)
             {
                 System.IO.StreamWriter sw = new System.IO.StreamWriter(guardar.FileName);
                 sw.Write(editorDeTexto.Text);
@@ -74,60 +76,111 @@ namespace Compilador
 
         private void deshacerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            editorDeTexto.Undo();
+            editorDeTexto.Undo(); //ctrl+z
         }
 
         private void rehacerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            editorDeTexto.Redo();
+            editorDeTexto.Redo(); //ctrl+y
         }
 
         private void cortarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            editorDeTexto.Cut();
+            editorDeTexto.Cut(); //ctrl+x
         }
 
         private void copiarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            editorDeTexto.Copy();
+            editorDeTexto.Copy(); //ctrl+c
         }
 
         private void pegarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            editorDeTexto.Paste();
+            editorDeTexto.Paste(); //ctrl+v
         }
 
         private void seleccionartodoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            editorDeTexto.SelectAll();
+            editorDeTexto.SelectAll(); //ctrl+a
         }
 
         private void editorDeTexto_TextChanged(object sender, EventArgs e)
         {
-            
-            Col.Text = editorDeTexto.TextLength.ToString();
-            Lin.Text = editorDeTexto.Lines.Length.ToString();
+            //Este evento detecta cuando el editor tiene cambios (escribir, borrar, etc.)
+            //Posicion de la linea
+            int index = editorDeTexto.SelectionStart;
+            int line = editorDeTexto.GetLineFromCharIndex(index);
+            //Posicion de la columna
+            int caracter = editorDeTexto.GetFirstCharIndexFromLine(line);
+            int columna = index - caracter +1;
+            //Los pone en el label
+            Lin.Text = (line+1).ToString();
+            Col.Text = columna.ToString();
+
             if (editorDeTexto.Lines.Length == 0)
             {
+                //Limita el label de lineas a siempre mostrar 1, al igual que el indicador de la posicion
                 Lin.Text = "1";
+                contadorLineas.Text = "1";               
             }
-            if (editorDeTexto.TextLength == 0)
+            if (columna == 0)
             {
+                //Lo mismo que lo anterior, pero a las columnas
                 Col.Text = "1";
+                
+            }
+            if (editorDeTexto.Lines.Length < cont) //Compara el numero de lineas
+            {
+                //La cantidad de caracteres a eliminar del label depende del numero de lineas
+                if (editorDeTexto.Lines.Length > 0 && editorDeTexto.Lines.Length < 10)
+                {
+                    //cont = editorDeTexto.Lines.Length;
+                    //contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 2); //Elimina el ultimo numero de linea del label de lineas
+                }
+                if (editorDeTexto.Lines.Length > 11 && editorDeTexto.Lines.Length < 100)
+                {
+                    contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 3); //Elimina el ultimo numero de linea del label de lineas
+                    cont = editorDeTexto.Lines.Length;
+                }
+                if (editorDeTexto.Lines.Length > 101 && editorDeTexto.Lines.Length < 1000)
+                {
+                    contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 4); //Elimina el ultimo numero de linea del label de lineas
+                    cont = editorDeTexto.Lines.Length;
+                }
+                if (editorDeTexto.Lines.Length > 1001 && editorDeTexto.Lines.Length < 10000)
+                {
+                    contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 5); //Elimina el ultimo numero de linea del label de lineas
+                    cont = editorDeTexto.Lines.Length;
+                }
             }
 
         }
 
         private void editorDeTexto_KeyPress(object sender, KeyPressEventArgs e)
         {
-            var lineas = editorDeTexto.Lines.Length;   
-            if (e.KeyChar == (Char)13)
+            if (e.KeyChar == (char)13) //Cada que el usuario usa enter
             {
-                contadorLineas.Text += "\n" + lineas.ToString();
+                contadorLineas.Text += "\n" + editorDeTexto.Lines.Length.ToString(); //Agrega el numero de linea al label de las lineas
+                cont++;
+            }
+            if (e.KeyChar == (char)37) //Izquierda
+            {
+
+            }
+            if (e.KeyChar == (char)38) //Arriba
+            {
+
+            }
+            if (e.KeyChar == (char)39) //Derecha
+            {
+
+            }
+            if (e.KeyChar == (char)40) //Abajo
+            {
 
             }
         }
 
-        
+
     }
 }
