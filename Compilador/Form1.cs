@@ -13,6 +13,7 @@ namespace Compilador
     public partial class Form1 : Form
     {
         private int cont = 1; //Contador de lineas
+
         public Form1()
         {
             InitializeComponent();
@@ -165,8 +166,9 @@ namespace Compilador
                     contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 5); //Elimina el ultimo numero de linea del label de lineas
                     cont = editorDeTexto.Lines.Length;
                 }
+
             }//if comparador de lineas
-            if (panelET.VerticalScroll.Visible)
+            if (panelET.VerticalScroll.Visible && Int32.Parse(Lin.Text) == editorDeTexto.Lines.Length)
             {
                 editorDeTexto.ScrollToCaret();
                 panelET.VerticalScroll.Value = panelET.VerticalScroll.Maximum;
@@ -180,6 +182,7 @@ namespace Compilador
             {
                 contadorLineas.Text += "\n" + editorDeTexto.Lines.Length.ToString(); //Agrega el numero de linea al label de las lineas
                 cont++;
+
             }
             if (e.KeyChar == (char)37) //Izquierda
             {
@@ -253,6 +256,20 @@ namespace Compilador
         private void button1_Click(object sender, EventArgs e)
         {
             DialogResult res = MessageBox.Show("No hace nada...aun =)", "Boton secreto que no hace nada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            DialogResult res = MessageBox.Show("Salir del programa?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (res == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
+
+        private void btnMinimizar_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
