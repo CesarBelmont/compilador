@@ -5,17 +5,25 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Compilador
 {
-    public partial class Form1 : Form
+    public partial class IDE : Form
     {
+        analizador_lexico.Lexico lexico;
+        List<analizador_lexico.Token> lLexico;
+        List<String> clase;
+        
         private int cont = 1; //Contador de lineas
 
-        public Form1()
+        public IDE()
         {
+            lexico = new analizador_lexico.Lexico();
+            lLexico = new List<analizador_lexico.Token>();
+            
             InitializeComponent();
             editorDeTexto.SelectAll();
             editorDeTexto.SelectionIndent += 25;
@@ -35,13 +43,16 @@ namespace Compilador
         }
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        {        
             OpenFileDialog abrir = new OpenFileDialog(); //Abre un nuevo cuadro de dialogo
             abrir.Filter = "Archivos de texto (.txt)|*.txt";
-            abrir.Title = "Abrir archivo";
+            abrir.Title = "Abrir archivo";           
             if (abrir.ShowDialog() == DialogResult.OK) //Si se decide abrir ese archivo
             {
+                cont = 1;
                 int lineas = 1;
+                contadorLineas.Text = "1";
+                editorDeTexto.Clear();
                 System.IO.StreamReader sr = new System.IO.StreamReader(abrir.FileName); //Lector de archivos
                 System.IO.StreamReader sr2 = new System.IO.StreamReader(abrir.FileName);
                 editorDeTexto.Text = sr.ReadToEnd(); //Escribe todo lo que tenga dicho archivo en el editor
@@ -52,9 +63,9 @@ namespace Compilador
                 }
                 contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 3);
                 cont = lineas - 1;
-                sr.Close();
+                sr.Close();               
             }
-
+            startPrinting();
         }
 
         private void guardarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -173,6 +184,7 @@ namespace Compilador
                 editorDeTexto.ScrollToCaret();
                 panelET.VerticalScroll.Value = panelET.VerticalScroll.Maximum;
             }
+            startPrinting();
 
         }
 
@@ -255,7 +267,20 @@ namespace Compilador
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("No hace nada...aun =)", "Boton secreto que no hace nada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            lLexico = lexico.detectarToken(editorDeTexto.Text);
+            clase = lexico.getDescription(lLexico);
+            errLexico();
+            if (lexico.getNumErros() == 0)
+            {
+                DialogResult noErr = MessageBox.Show("Sin errores lexicos", "Compilacion completa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                DialogResult siErr = MessageBox.Show("Se han detectado errores lexicos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            //DialogResult res = MessageBox.Show("No hace nada...aun =)", "Boton secreto que no hace nada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)
@@ -271,5 +296,140 @@ namespace Compilador
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
+        public void errLexico()
+        {
+            StringBuilder tokens = new StringBuilder();
+            StringBuilder errores = new StringBuilder();
+            tokens.Append("Lexema\t\t\t\t" + "Tipo Token" + "\n\n");
+            errores.Append("Lexema\t\t" + "Ubicacion" + "\n");
+            if (lLexico.Count > 0)
+            {
+                for (int i = 0; i < lLexico.Count; i++)
+                {
+                    if (clase[i] != "Error")
+                    {
+                        tokens.Append(lLexico[i].getName() + "\t\t\t\t" + clase[i]);
+                    }
+                    else
+                    {
+                        errores.Append(lLexico[i].getName() + "\t\t" + "Fila: " + lLexico[i].getLocation().getFila() + " Columna: " + lLexico[i].getLocation().getColumna() + '\n');
+                    }
+                }
+                salidaLexico.Text = tokens.ToString();
+                erroresLexicos.Text = errores.ToString();
+
+            }
+        }
+
+        public void startPrinting()
+        {
+            int selecionStart = editorDeTexto.SelectionStart;
+            int selectionLenght = editorDeTexto.SelectionLength;
+            editorDeTexto.SelectAll();
+            editorDeTexto.SelectionColor = Color.Black;
+            printCode();
+            editorDeTexto.SelectionStart = selecionStart;
+            editorDeTexto.SelectionLength = selectionLenght;
+            editorDeTexto.Enabled = true;
+            editorDeTexto.Focus();
+        }
+        private void printCode()
+        {
+            palabrasReservadas();
+            simbolos();
+            comentarios();
+        }
+
+        private void printBase(MatchCollection matches, Color color)
+        {
+            for (int i = 0; i < matches.Count; i++)
+            {
+                editorDeTexto.SelectionStart = matches[i].Index;
+                editorDeTexto.SelectionLength = matches[i].Length;
+                editorDeTexto.SelectionColor = color;
+            }
+        }
+
+        private void palabrasReservadas() { 
+            Regex regex = new Regex(@"(\+|\-|\*|/|<|>|=|;|,|\(|\)|{|})?(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)"
+                + @"(\+|\-|\*|/|<|>|=|;|,|\(|\)|{|}|!)?");
+            MatchCollection matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Red);
+
+            regex = new Regex("^(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Red);
+
+            regex = new Regex(" (if|then|else|end|do|while|cout|cin|int|float|main|boolean|real) ");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Red);
+
+            regex = new Regex(" (if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Red);
+
+            regex = new Regex(" (if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)\n");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Red);
+
+            regex = new Regex("\t(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Red);
+
+            regex = new Regex("\t(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)\n");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Red);
+
+            regex = new Regex("\n(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Red);
+
+
+            regex = new Regex(@"\(int|\(float");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Red);
+
+            regex = new Regex("(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)([a-zA-Z]|[0-9])+");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Black);
+
+            regex = new Regex("([a-zA-Z]|[0-9])+(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Black);
+
+        }
+
+        private void simbolos()
+        {
+            Regex regex = new Regex(@"(\+|\-|\*|<|=|<=|>|>=|==|/|!=|;|,|\)|{|}|\+\+|\-\-)");
+            MatchCollection matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Blue);
+
+            regex = new Regex(@"\(");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Blue);
+
+        }
+
+        private void comentarios()
+        {
+            Regex regex = new Regex("(//)(^\")*(.)*");
+            MatchCollection matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Gray);
+
+            regex = new Regex(@"(/\*)(^" + "\"|" + "\"" + "|\n|\t| |቙|" + @"\)|\(" + "|[a-z]|[A-Z]|[0-9]" + "|°|#|%|&|'|;|,|¡|!|{|}|>|<|=|"
+                + @"\]|\[|\$|\?|\¿|" + @"\.|" + @"\*|\+|\-|~[" + @"\*/" + "])*" + @"(\*/)");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Gray);
+
+            regex = new Regex(@"(/\*)(^" + "\"|" + "\"" + "|\n|\t| |቙|" + @"\)|\(" + "|[a-z]|[A-Z]|[0-9]" + @"|\." + "|°|#|%|&|'|;|,|¡|!|{|}|>|<|=|"
+                + @"\]|\[|\$|\?|\¿|" + @"\*|\+|\-|~[" + @"\*/" + "])*");
+            matches = regex.Matches(editorDeTexto.Text);
+            printBase(matches, Color.Gray);
+        }
+
     }
+
+  
 }
