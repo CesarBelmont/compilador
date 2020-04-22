@@ -64,8 +64,7 @@ namespace Compilador
                 contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 3);
                 cont = lineas - 1;
                 sr.Close();               
-            }
-            startPrinting();
+            }         
         }
 
         private void guardarToolStripMenuItem_Click(object sender, EventArgs e)

@@ -58,11 +58,11 @@ namespace Compilador.analizador_lexico
             location = new List<TokenLocation>();
             TokenLocation Location;
             String Others = "^[A-Za-z][A-Za-z0-9]*$";
+            String Numbers = "^[0-9][A-Za-z]+$";
             for (int i = 0; i < letras.Length; i++)
             {
                 columna++;
                 if (!isSeparator(letras[i]) && !isSimbolos(letras[i]) && !isCorchete(letras[i]) && (letras[i] >= 48 && letras[i] <= 57 || (letras[i] >= 65 && letras[i] <= 90) || (letras[i] >= 97 && letras[i] <= 122)))
-                //Verifica que la entrada sea una A-Z o a-z
                 {
                     tokenActual += letras[i];
                     if (Regex.IsMatch(tokenActual, Others))
@@ -85,11 +85,11 @@ namespace Compilador.analizador_lexico
                         }
                     }
                 }
-                else //Si no es una letra verifica por el resto
+                else
                 {
                     if (letras[i] == '\t')
                     {
-                        columna += 4; //Si es un tabulado, la columna aumenta 4 espacios
+                        columna += 4;
                     }
                     if (letras[i] == '+' || letras[i] == '-')
                     {
@@ -508,7 +508,7 @@ namespace Compilador.analizador_lexico
                     }
                     else if (letras[i] == '.')
                     {
-                        if (!isNumber(tokenActual) || (i < (letras.Length - 1) && (letras[i + 1] < 48 || letras[i + 1] > 57) || (i + 1) >= letras.Length))
+                        if (!isNumber(tokenActual))
                         {
                             Token token;
                             if (tokenActual != "")
@@ -546,12 +546,20 @@ namespace Compilador.analizador_lexico
                             {
                                 if (isNumber(letras[i].ToString()) || !isSeparator(letras[i]) && !isSimbolos(letras[i]))
                                 {
-                                    tokenActual += letras[i];
-                                }
-                                else
-                                {
-                                    i--;
-                                    break;
+
+                                    if (!isNumber(letras[i].ToString()))
+                                    {
+
+                                        Console.WriteLine("aqui hay algo que no esta bien");
+                                        i--;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        tokenActual += letras[i];
+                                        Console.WriteLine("Ok");
+
+                                    }
                                 }
                                 i++;
                                 columna++;
@@ -566,7 +574,6 @@ namespace Compilador.analizador_lexico
                             tokenActual = "";
                             continue;
                         }
-
                     }
                     else if (letras[i] == '[' || letras[i] == ']')
                     {
@@ -673,29 +680,29 @@ namespace Compilador.analizador_lexico
             numErros = 0;
             String validTokens = "";
             String patron = "^[A-Za-z_][A-Za-z0-9_]*$";
-            String numerosSS = "^[0-9]+\\.[0-9]+$";
-            String numeroIntSS = "^[0-9]+$";
-            String signo = "^[\\+\\-][0-9]+$";
-            String signoFloat = "^[\\+\\-][0-9]+\\.[0-9]+$";
-            StreamWriter Archivo = File.CreateText(@"../../SalidaLexico/Lexico.txt");
+            String floatNS = "^[0-9]+\\.[0-9]+$";
+            String intNS = "^[0-9]+$";
+            String intCS = "^[\\+\\-][0-9]+$";
+            String floatCS = "^[\\+\\-][0-9]+\\.[0-9]+$";
+            StreamWriter Tokens = File.CreateText(@"../../SalidaLexico/Lexico.txt");
             StreamWriter Errores = File.CreateText(@"../../SalidaLexico/Error.txt");
             clase = new List<String>();
             for (int i = 0; i < list.Count; i++)
             {
                 String aux = list[i].getName();
-                if (isReservada(aux))
+                if (isReservada(aux))//Palabras reservadas
                 {
                     validTokens += Estados.RESERVADA_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens);
+                    Tokens.WriteLine(list[i] + " " + validTokens);
                     validTokens = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.ASIGNACION_TOKEN)
-                {//falta identificador y numero entero y numero flotante con o sin signo
+                else if (list[i].getName() == Estados.ASIGNACION_TOKEN)//Asignacion
+                {
                     validTokens += Estados.ASIGNACION_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -703,7 +710,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.LLAVE_ABRE_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -711,7 +718,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.LLAVE_CIERRA_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -719,7 +726,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.INCREMENTO_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -727,7 +734,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.IGUALDAD_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -735,7 +742,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.PARENTESIS_ABRE_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -743,7 +750,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.PARENTESIS_CIERRA_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -751,7 +758,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.PUNTO_COMA_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -759,7 +766,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.COMA_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -767,7 +774,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.DECREMENTO_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -775,7 +782,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.DIFERENTE_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -783,7 +790,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.DIVISION_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -791,7 +798,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.MAS_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -799,7 +806,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.MAYOR_QUE_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -807,7 +814,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.MENOR_QUE_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -815,7 +822,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.MENOS_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -823,7 +830,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.MODULO_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -831,7 +838,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.MULTI_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -839,7 +846,7 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.MAYOR_IGUAL_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -847,21 +854,21 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.MENOR_IGUAL_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
                 else if (list[i].getName().Contains(Estados.COMENTARIO_SIMPLE_TOKEN))
                 {
                     validTokens += Estados.COMENTARIO_SIMPLE_DESCRIPTION;
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
                 else if (list[i].getName().Contains(Estados.COMENTARIO_MULTIPLE_TOKEN))
                 {
                     validTokens += Estados.COMENTARIO_MULTIPLE_DESCRIPTION;
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
@@ -869,50 +876,50 @@ namespace Compilador.analizador_lexico
                 {
                     validTokens += Estados.ID_DESCRIPTION;
                     clase.Add(validTokens);
-                    Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     validTokens = "";
                     continue;
                 }
-                else if (Regex.IsMatch(list[i].getName(), numerosSS))
+                else if (Regex.IsMatch(list[i].getName(), floatNS))
                 {
                     validTokens += Estados.NUM_FLOAT_SSIGNO_DESCRIPTION;
                     clase.Add(validTokens);
                     if (list.Count != 0)
                     {
-                        Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                        Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     }
                     validTokens = "";
                     continue;
                 }
-                else if (Regex.IsMatch(list[i].getName(), numeroIntSS))
+                else if (Regex.IsMatch(list[i].getName(), intNS))
                 {
                     validTokens += Estados.NUM_INT_SSIGNO_DESCRIPTION;
                     clase.Add(validTokens);
                     if (list.Count != 0)
                     {
-                        Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                        Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     }
                     validTokens = "";
                     continue;
                 }
-                else if (Regex.IsMatch(list[i].getName(), signo))
+                else if (Regex.IsMatch(list[i].getName(), intCS))
                 {
                     validTokens += Estados.NUM_INT_CSIGNO_DESCRIPTION;
                     clase.Add(validTokens);
                     if (list.Count != 0)
                     {
-                        Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                        Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     }
                     validTokens = "";
                     continue;
                 }
-                else if (Regex.IsMatch(list[i].getName(), signoFloat))
+                else if (Regex.IsMatch(list[i].getName(), floatCS))
                 {
                     validTokens += Estados.NUM_FLOAT_CSIGNO_DESCRIPTION;
                     clase.Add(validTokens);
                     if (list.Count != 0)
                     {
-                        Archivo.WriteLine(list[i] + " " + validTokens + "\n");
+                        Tokens.WriteLine(list[i] + " " + validTokens + "\n");
                     }
                     validTokens = "";
                     continue;
@@ -929,7 +936,7 @@ namespace Compilador.analizador_lexico
                     validTokens = "";
                 }
             }
-            Archivo.Close();
+            Tokens.Close();
             Errores.Close();
             return clase;
         }
