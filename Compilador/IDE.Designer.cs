@@ -65,6 +65,7 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.Errores = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.erroresLexicos = new System.Windows.Forms.RichTextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.tabPage9 = new System.Windows.Forms.TabPage();
@@ -77,7 +78,6 @@
             this.btnAbrir = new System.Windows.Forms.Button();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnMinimizar = new System.Windows.Forms.Button();
-            this.erroresLexicos = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.panelLinCol.SuspendLayout();
             this.panelET.SuspendLayout();
@@ -264,6 +264,7 @@
             this.editorDeTexto.TabIndex = 2;
             this.editorDeTexto.Text = "";
             this.editorDeTexto.WordWrap = false;
+            this.editorDeTexto.Click += new System.EventHandler(this.editorDeTexto_Click);
             this.editorDeTexto.TextChanged += new System.EventHandler(this.editorDeTexto_TextChanged);
             this.editorDeTexto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.editorDeTexto_KeyPress);
             // 
@@ -445,6 +446,15 @@
             this.tabPage6.Text = "Errores Lexicos";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
+            // erroresLexicos
+            // 
+            this.erroresLexicos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.erroresLexicos.Location = new System.Drawing.Point(3, 2);
+            this.erroresLexicos.Name = "erroresLexicos";
+            this.erroresLexicos.Size = new System.Drawing.Size(1239, 150);
+            this.erroresLexicos.TabIndex = 0;
+            this.erroresLexicos.Text = "";
+            // 
             // tabPage7
             // 
             this.tabPage7.Location = new System.Drawing.Point(4, 25);
@@ -591,15 +601,6 @@
             this.btnMinimizar.TabIndex = 16;
             this.btnMinimizar.UseVisualStyleBackColor = true;
             this.btnMinimizar.Click += new System.EventHandler(this.btnMinimizar_Click);
-            // 
-            // erroresLexicos
-            // 
-            this.erroresLexicos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.erroresLexicos.Location = new System.Drawing.Point(3, 2);
-            this.erroresLexicos.Name = "erroresLexicos";
-            this.erroresLexicos.Size = new System.Drawing.Size(1239, 150);
-            this.erroresLexicos.TabIndex = 0;
-            this.erroresLexicos.Text = "";
             // 
             // IDE
             // 

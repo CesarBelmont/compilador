@@ -58,7 +58,6 @@ namespace Compilador.analizador_lexico
             location = new List<TokenLocation>();
             TokenLocation Location;
             String Others = "^[A-Za-z][A-Za-z0-9]*$";
-            String Numbers = "^[0-9][A-Za-z]+$";
             for (int i = 0; i < letras.Length; i++)
             {
                 columna++;
@@ -508,6 +507,7 @@ namespace Compilador.analizador_lexico
                     }
                     else if (letras[i] == '.')
                     {
+
                         if (!isNumber(tokenActual))
                         {
                             Token token;
@@ -521,7 +521,9 @@ namespace Compilador.analizador_lexico
                                 location.Add(Location);
                                 token.setName(tokenActual);
                                 lLexico.Add(token);
+
                                 tokenActual = "";
+
                             }
                             token = new Token();
                             Location = new TokenLocation();
@@ -535,15 +537,18 @@ namespace Compilador.analizador_lexico
                             lLexico.Add(token);
                             tokenActual = "";
                             continue;
+
                         }
                         else
                         {
+
                             Token token = new Token();
                             tokenActual += letras[i];
                             i++;
-                            columna++;
+                            columna++;                          
                             while ((i < letras.Length))
                             {
+
                                 if (isNumber(letras[i].ToString()) || !isSeparator(letras[i]) && !isSimbolos(letras[i]))
                                 {
 
@@ -560,6 +565,12 @@ namespace Compilador.analizador_lexico
                                         Console.WriteLine("Ok");
 
                                     }
+
+                                }
+                                else
+                                {
+                                    i--;
+                                    break;
                                 }
                                 i++;
                                 columna++;
@@ -574,6 +585,7 @@ namespace Compilador.analizador_lexico
                             tokenActual = "";
                             continue;
                         }
+
                     }
                     else if (letras[i] == '[' || letras[i] == ']')
                     {
@@ -644,6 +656,7 @@ namespace Compilador.analizador_lexico
                     fila++;
                     columna = 0;
                 }
+
             }
 
             if (tokenActual != "")
@@ -660,6 +673,7 @@ namespace Compilador.analizador_lexico
             }
             return lLexico;//se retorna la lista para escribirla en el espacio de Lexico
         }
+
         private Boolean isNumber(String token) //Verifica si es un numero
         {
             Boolean isnumber;
@@ -669,7 +683,7 @@ namespace Compilador.analizador_lexico
                 isnumber = true;
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 isnumber = false;
             }

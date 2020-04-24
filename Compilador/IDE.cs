@@ -16,19 +16,20 @@ namespace Compilador
         analizador_lexico.Lexico lexico;
         List<analizador_lexico.Token> lLexico;
         List<String> clase;
-        
+
         private int cont = 1; //Contador de lineas
+
 
         public IDE()
         {
             lexico = new analizador_lexico.Lexico();
             lLexico = new List<analizador_lexico.Token>();
-            
             InitializeComponent();
             editorDeTexto.SelectAll();
             editorDeTexto.SelectionIndent += 25;
             editorDeTexto.SelectionRightIndent += 25;
             editorDeTexto.DeselectAll();
+
         }
 
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,10 +44,11 @@ namespace Compilador
         }
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
-        {        
+        {
+
             OpenFileDialog abrir = new OpenFileDialog(); //Abre un nuevo cuadro de dialogo
             abrir.Filter = "Archivos de texto (.txt)|*.txt";
-            abrir.Title = "Abrir archivo";           
+            abrir.Title = "Abrir archivo";
             if (abrir.ShowDialog() == DialogResult.OK) //Si se decide abrir ese archivo
             {
                 cont = 1;
@@ -63,8 +65,8 @@ namespace Compilador
                 }
                 contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 3);
                 cont = lineas - 1;
-                sr.Close();               
-            }         
+                sr.Close();
+            }
         }
 
         private void guardarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -126,6 +128,7 @@ namespace Compilador
 
         private void editorDeTexto_TextChanged(object sender, EventArgs e)
         {
+
             //Este evento detecta cuando el editor tiene cambios (escribir, borrar, etc.)
             //Posicion de la linea
             int index = editorDeTexto.SelectionStart;
@@ -136,7 +139,6 @@ namespace Compilador
             //Los pone en el label
             Lin.Text = (line + 1).ToString();
             Col.Text = columna.ToString();
-
             if (editorDeTexto.Lines.Length == 0)
             {
                 //Limita el label de lineas a siempre mostrar 1, al igual que el indicador de la posicion
@@ -177,13 +179,13 @@ namespace Compilador
                     cont = editorDeTexto.Lines.Length;
                 }
 
-            }//if comparador de lineas
-            if (panelET.VerticalScroll.Visible && Int32.Parse(Lin.Text) == editorDeTexto.Lines.Length)
+            }
+            if (panelET.VerticalScroll.Visible && Int32.Parse(Lin.Text) == editorDeTexto.Lines.Length) //Permite la sincronizacion en el scroll del editor de texto y las lineas
             {
                 editorDeTexto.ScrollToCaret();
                 panelET.VerticalScroll.Value = panelET.VerticalScroll.Maximum;
             }
-            startPrinting();
+            // startPrinting();
 
         }
 
@@ -228,12 +230,14 @@ namespace Compilador
 
         private void btnAbrir_Click(object sender, EventArgs e)
         {
+            editorDeTexto.Clear(); //Elimina todo el contenido del editor de texto actual
+            contadorLineas.Text = "1"; //Limpieza del label de numero de lineas
             OpenFileDialog abrir = new OpenFileDialog(); //Abre un nuevo cuadro de dialogo
             abrir.Filter = "Archivos de texto (.txt)|*.txt";
             abrir.Title = "Abrir archivo";
             if (abrir.ShowDialog() == DialogResult.OK) //Si se decide abrir ese archivo
             {
-                int lineas = 1;
+                int lineas = 0;
                 System.IO.StreamReader sr = new System.IO.StreamReader(abrir.FileName); //Lector de archivos
                 System.IO.StreamReader sr2 = new System.IO.StreamReader(abrir.FileName);
                 editorDeTexto.Text = sr.ReadToEnd(); //Escribe todo lo que tenga dicho archivo en el editor
@@ -266,7 +270,7 @@ namespace Compilador
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            startPrinting();
             lLexico = lexico.detectarToken(editorDeTexto.Text);
             clase = lexico.getDescription(lLexico);
             errLexico();
@@ -298,6 +302,7 @@ namespace Compilador
 
         public void errLexico()
         {
+
             StringBuilder tokens = new StringBuilder();
             StringBuilder errores = new StringBuilder();
             tokens.Append("Lexema\t\t\t\t" + "Tipo Token" + "\n\n");
@@ -312,7 +317,7 @@ namespace Compilador
                     }
                     else
                     {
-                        errores.Append(lLexico[i].getName() + "\t\t" + "Fila: " + lLexico[i].getLocation().getFila() + " Columna: " + lLexico[i].getLocation().getColumna() + '\n');
+                        errores.Append(lLexico[i].getName() + "\t\t" + "Fila: " + lLexico[i].getLocation().getFila() + "\t\t Columna: " + lLexico[i].getLocation().getColumna() + '\n');
                     }
                 }
                 salidaLexico.Text = tokens.ToString();
@@ -323,6 +328,7 @@ namespace Compilador
 
         public void startPrinting()
         {
+            editorDeTexto.Enabled = false;
             int selecionStart = editorDeTexto.SelectionStart;
             int selectionLenght = editorDeTexto.SelectionLength;
             editorDeTexto.SelectAll();
@@ -330,9 +336,11 @@ namespace Compilador
             printCode();
             editorDeTexto.SelectionStart = selecionStart;
             editorDeTexto.SelectionLength = selectionLenght;
-            editorDeTexto.Enabled = true;
+             editorDeTexto.Enabled = true;
             editorDeTexto.Focus();
+
         }
+
         private void printCode()
         {
             palabrasReservadas();
@@ -350,7 +358,8 @@ namespace Compilador
             }
         }
 
-        private void palabrasReservadas() { 
+        private void palabrasReservadas()
+        {
             Regex regex = new Regex(@"(\+|\-|\*|/|<|>|=|;|,|\(|\)|{|})?(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)"
                 + @"(\+|\-|\*|/|<|>|=|;|,|\(|\)|{|}|!)?");
             MatchCollection matches = regex.Matches(editorDeTexto.Text);
@@ -428,7 +437,15 @@ namespace Compilador
             printBase(matches, Color.Gray);
         }
 
+        private void editorDeTexto_Click(object sender, EventArgs e)
+        {
+            int index = editorDeTexto.SelectionStart;
+            int line = editorDeTexto.GetLineFromCharIndex(index);
+            //Posicion de la columna
+            int caracter = editorDeTexto.GetFirstCharIndexFromLine(line);
+            int columna = index - caracter + 1;
+            Lin.Text = (line + 1).ToString();
+            Col.Text = columna.ToString();
+        }
     }
-
-  
 }
