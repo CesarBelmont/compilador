@@ -4,20 +4,38 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Compilador
 {
+    public enum ScrollBarType : uint
+    {
+        SbHorz = 0, SbVert = 1, SbCtl = 2, SbBoth = 3
+    }
+    public enum Message : uint
+    {
+        WM_VSCROLL = 0x0115
+    }
+    public enum ScrollBarCommands : uint
+    {
+        SB_THUMBPOSITION = 4
+    }
     public partial class IDE : Form
     {
         analizador_lexico.Lexico lexico;
         List<analizador_lexico.Token> lLexico;
         List<String> clase;
-
-        private int cont = 1; //Contador de lineas
+        Lineas linea;
+        [DllImport("User32.dll")]
+        public extern static int GetScrollPos(IntPtr hWnd, int nBar);
+        [DllImport("User32.dll")]
+        public extern static int SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+        int cont;
 
 
         public IDE()
@@ -25,11 +43,10 @@ namespace Compilador
             lexico = new analizador_lexico.Lexico();
             lLexico = new List<analizador_lexico.Token>();
             InitializeComponent();
-            editorDeTexto.SelectAll();
-            editorDeTexto.SelectionIndent += 25;
-            editorDeTexto.SelectionRightIndent += 25;
-            editorDeTexto.DeselectAll();
-
+            linea = new Lineas();
+            cont = 0;
+            contadorLineas.Text = "1";
+            contadorLineas.Enabled = false;
         }
 
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -51,20 +68,19 @@ namespace Compilador
             abrir.Title = "Abrir archivo";
             if (abrir.ShowDialog() == DialogResult.OK) //Si se decide abrir ese archivo
             {
-                cont = 1;
-                int lineas = 1;
+                cont = 1;               
                 contadorLineas.Text = "1";
                 editorDeTexto.Clear();
                 System.IO.StreamReader sr = new System.IO.StreamReader(abrir.FileName); //Lector de archivos
                 System.IO.StreamReader sr2 = new System.IO.StreamReader(abrir.FileName);
-                editorDeTexto.Text = sr.ReadToEnd(); //Escribe todo lo que tenga dicho archivo en el editor
-                while (sr2.ReadLine() != null)
+                editorDeTexto.Text = sr.ReadToEnd(); //Escribe todo lo que tenga dicho archivo en el editor  
+                cont = linea.getLienas(editorDeTexto.Text);
+                StringBuilder auxiliar = new StringBuilder();
+                for (int i = 0; i < cont; i++)
                 {
-                    lineas++;
-                    contadorLineas.Text += "\n" + lineas.ToString();
+                    auxiliar.AppendLine((String.Empty + (i + 1)));
                 }
-                contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 3);
-                cont = lineas - 1;
+                contadorLineas.Text = auxiliar.ToString();
                 sr.Close();
             }
         }
@@ -126,95 +142,42 @@ namespace Compilador
             editorDeTexto.SelectAll(); //ctrl+a
         }
 
+        private void editorDeTexto_VScroll(object sender, EventArgs e)
+        {
+            int nPos = GetScrollPos(editorDeTexto.Handle, (int)ScrollBarType.SbVert);
+            nPos <<= 16;
+            uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
+            SendMessage(contadorLineas.Handle, (int)Message.WM_VSCROLL, new IntPtr(wParam), new IntPtr(0));
+        }
+
+        private void editorDeTexto_SelectionChange()
+        {
+            int index = editorDeTexto.SelectionStart; //Saber el indice de la posicion del cursor
+            int line = editorDeTexto.GetLineFromCharIndex(index); //Devuelve la linea del cursor
+            int column = (editorDeTexto.SelectionStart - editorDeTexto.GetFirstCharIndexFromLine(line)); // Le resta al indice del cursor el indice del primer caracter de la linea
+            line++;
+            column++;
+        }
+
+
         private void editorDeTexto_TextChanged(object sender, EventArgs e)
         {
-
-            //Este evento detecta cuando el editor tiene cambios (escribir, borrar, etc.)
-            //Posicion de la linea
             int index = editorDeTexto.SelectionStart;
             int line = editorDeTexto.GetLineFromCharIndex(index);
-            //Posicion de la columna
             int caracter = editorDeTexto.GetFirstCharIndexFromLine(line);
             int columna = index - caracter + 1;
-            //Los pone en el label
             Lin.Text = (line + 1).ToString();
             Col.Text = columna.ToString();
-            if (editorDeTexto.Lines.Length == 0)
+            cont = linea.getLienas(editorDeTexto.Text);
+            StringBuilder auxiliar = new StringBuilder();
+            for (int i = 0; i < cont; i++)
             {
-                //Limita el label de lineas a siempre mostrar 1, al igual que el indicador de la posicion
-                Lin.Text = "1";
-                contadorLineas.Text = "1";
+                auxiliar.AppendLine((String.Empty + (i + 1)));
             }
-            if (columna == 0)
-            {
-                //Lo mismo que lo anterior, pero a las columnas
-                Col.Text = "1";
-
-            }
-            if (editorDeTexto.Lines.Length < cont) //Compara el numero de lineas
-            {
-                if (editorDeTexto.Lines.Length == 0)
-                {
-                    cont = 1;
-                }
-                //La cantidad de caracteres a eliminar del label depende del numero de lineas
-                if (editorDeTexto.Lines.Length > 0 && editorDeTexto.Lines.Length < 10)
-                {
-                    cont = editorDeTexto.Lines.Length;
-                    contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 2); //Elimina el ultimo numero de linea del label de lineas
-                }
-                if (editorDeTexto.Lines.Length >= 10 && editorDeTexto.Lines.Length < 100)
-                {
-                    contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 3); //Elimina el ultimo numero de linea del label de lineas
-                    cont = editorDeTexto.Lines.Length;
-                }
-                if (editorDeTexto.Lines.Length > 100 && editorDeTexto.Lines.Length < 1000)
-                {
-                    contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 4); //Elimina el ultimo numero de linea del label de lineas
-                    cont = editorDeTexto.Lines.Length;
-                }
-                if (editorDeTexto.Lines.Length > 1000 && editorDeTexto.Lines.Length < 10000)
-                {
-                    contadorLineas.Text = contadorLineas.Text.Remove(contadorLineas.Text.Length - 5); //Elimina el ultimo numero de linea del label de lineas
-                    cont = editorDeTexto.Lines.Length;
-                }
-
-            }
-            if (panelET.VerticalScroll.Visible && Int32.Parse(Lin.Text) == editorDeTexto.Lines.Length) //Permite la sincronizacion en el scroll del editor de texto y las lineas
-            {
-                editorDeTexto.ScrollToCaret();
-                panelET.VerticalScroll.Value = panelET.VerticalScroll.Maximum;
-            }
-            // startPrinting();
-
+            contadorLineas.Text = auxiliar.ToString();
+            startPrinting();
         }
-
-        private void editorDeTexto_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)13) //Cada que el usuario usa enter
-            {
-                contadorLineas.Text += "\n" + editorDeTexto.Lines.Length.ToString(); //Agrega el numero de linea al label de las lineas
-                cont++;
-
-            }
-            if (e.KeyChar == (char)37) //Izquierda
-            {
-
-            }
-            if (e.KeyChar == (char)38) //Arriba
-            {
-
-            }
-            if (e.KeyChar == (char)39) //Derecha
-            {
-
-            }
-            if (e.KeyChar == (char)40) //Abajo
-            {
-
-            }
-        }
-
+    
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             SaveFileDialog guardar = new SaveFileDialog(); //Cuadro de dialogo
@@ -268,9 +231,18 @@ namespace Compilador
             editorDeTexto.Redo();
         }
 
+        private void editorDeTexto_Click(object sender, EventArgs e)
+        {
+            int index = editorDeTexto.SelectionStart;
+            int line = editorDeTexto.GetLineFromCharIndex(index);
+            int caracter = editorDeTexto.GetFirstCharIndexFromLine(line);
+            int columna = index - caracter + 1;
+            Lin.Text = (line + 1).ToString();
+            Col.Text = columna.ToString();
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            startPrinting();
             lLexico = lexico.detectarToken(editorDeTexto.Text);
             clase = lexico.getDescription(lLexico);
             errLexico();
@@ -328,15 +300,18 @@ namespace Compilador
 
         public void startPrinting()
         {
-            editorDeTexto.Enabled = false;
+
             int selecionStart = editorDeTexto.SelectionStart;
             int selectionLenght = editorDeTexto.SelectionLength;
-            editorDeTexto.SelectAll();
-            editorDeTexto.SelectionColor = Color.Black;
+            Color colorOriginal = Color.Black;
+            panelET.Focus();
+            editorDeTexto.SelectionStart = 0;
+            editorDeTexto.SelectionLength = editorDeTexto.Text.Length;
+            editorDeTexto.SelectionColor = colorOriginal;
             printCode();
             editorDeTexto.SelectionStart = selecionStart;
             editorDeTexto.SelectionLength = selectionLenght;
-             editorDeTexto.Enabled = true;
+            editorDeTexto.SelectionColor = colorOriginal;
             editorDeTexto.Focus();
 
         }
@@ -425,27 +400,31 @@ namespace Compilador
             Regex regex = new Regex("(//)(^\")*(.)*");
             MatchCollection matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Gray);
-
-            regex = new Regex(@"(/\*)(^" + "\"|" + "\"" + "|\n|\t| |቙|" + @"\)|\(" + "|[a-z]|[A-Z]|[0-9]" + "|°|#|%|&|'|;|,|¡|!|{|}|>|<|=|"
-                + @"\]|\[|\$|\?|\¿|" + @"\.|" + @"\*|\+|\-|~[" + @"\*/" + "])*" + @"(\*/)");
-            matches = regex.Matches(editorDeTexto.Text);
-            printBase(matches, Color.Gray);
-
-            regex = new Regex(@"(/\*)(^" + "\"|" + "\"" + "|\n|\t| |቙|" + @"\)|\(" + "|[a-z]|[A-Z]|[0-9]" + @"|\." + "|°|#|%|&|'|;|,|¡|!|{|}|>|<|=|"
-                + @"\]|\[|\$|\?|\¿|" + @"\*|\+|\-|~[" + @"\*/" + "])*");
+            regex = new Regex(@"/\*(?:(?!\*/).)*\*/", RegexOptions.Singleline);
             matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Gray);
         }
-
-        private void editorDeTexto_Click(object sender, EventArgs e)
+    }
+    public class Lineas
+    {
+        public Lineas()
         {
-            int index = editorDeTexto.SelectionStart;
-            int line = editorDeTexto.GetLineFromCharIndex(index);
-            //Posicion de la columna
-            int caracter = editorDeTexto.GetFirstCharIndexFromLine(line);
-            int columna = index - caracter + 1;
-            Lin.Text = (line + 1).ToString();
-            Col.Text = columna.ToString();
+
+        }
+        public int getLienas(String Texto)
+        {
+
+            Char[] letra = Texto.ToCharArray();
+            int contador = 1;
+            for (int i = 0; i < letra.Length; i++)
+            {
+
+                if (letra[i] == '\n')
+                {
+                    contador++;
+                }
+            }
+            return contador;
         }
     }
 }

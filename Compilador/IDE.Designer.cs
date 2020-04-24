@@ -49,7 +49,6 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.seleccionartodoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editorDeTexto = new System.Windows.Forms.RichTextBox();
-            this.contadorLineas = new System.Windows.Forms.Label();
             this.Linea = new System.Windows.Forms.Label();
             this.Columna = new System.Windows.Forms.Label();
             this.Col = new System.Windows.Forms.Label();
@@ -78,6 +77,8 @@
             this.btnAbrir = new System.Windows.Forms.Button();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnMinimizar = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.contadorLineas = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.panelLinCol.SuspendLayout();
             this.panelET.SuspendLayout();
@@ -86,6 +87,7 @@
             this.Errores.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.panelBotones.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -97,7 +99,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1284, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1292, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -259,25 +261,13 @@
             this.editorDeTexto.Location = new System.Drawing.Point(0, 0);
             this.editorDeTexto.Margin = new System.Windows.Forms.Padding(4);
             this.editorDeTexto.Name = "editorDeTexto";
-            this.editorDeTexto.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.editorDeTexto.Size = new System.Drawing.Size(644, 470);
+            this.editorDeTexto.Size = new System.Drawing.Size(627, 468);
             this.editorDeTexto.TabIndex = 2;
             this.editorDeTexto.Text = "";
             this.editorDeTexto.WordWrap = false;
+            this.editorDeTexto.VScroll += new System.EventHandler(this.editorDeTexto_VScroll);
             this.editorDeTexto.Click += new System.EventHandler(this.editorDeTexto_Click);
             this.editorDeTexto.TextChanged += new System.EventHandler(this.editorDeTexto_TextChanged);
-            this.editorDeTexto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.editorDeTexto_KeyPress);
-            // 
-            // contadorLineas
-            // 
-            this.contadorLineas.AutoSize = true;
-            this.contadorLineas.BackColor = System.Drawing.SystemColors.Control;
-            this.contadorLineas.Location = new System.Drawing.Point(4, 2);
-            this.contadorLineas.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.contadorLineas.Name = "contadorLineas";
-            this.contadorLineas.Size = new System.Drawing.Size(16, 17);
-            this.contadorLineas.TabIndex = 3;
-            this.contadorLineas.Text = "1";
             // 
             // Linea
             // 
@@ -334,12 +324,11 @@
             // panelET
             // 
             this.panelET.AutoScroll = true;
-            this.panelET.Controls.Add(this.contadorLineas);
             this.panelET.Controls.Add(this.editorDeTexto);
-            this.panelET.Location = new System.Drawing.Point(13, 74);
+            this.panelET.Location = new System.Drawing.Point(80, 71);
             this.panelET.Margin = new System.Windows.Forms.Padding(4);
             this.panelET.Name = "panelET";
-            this.panelET.Size = new System.Drawing.Size(644, 470);
+            this.panelET.Size = new System.Drawing.Size(627, 468);
             this.panelET.TabIndex = 10;
             // 
             // Salida
@@ -349,11 +338,11 @@
             this.Salida.Controls.Add(this.tabPage3);
             this.Salida.Controls.Add(this.tabPage4);
             this.Salida.Controls.Add(this.tabPage5);
-            this.Salida.Location = new System.Drawing.Point(675, 76);
+            this.Salida.Location = new System.Drawing.Point(714, 76);
             this.Salida.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Salida.Name = "Salida";
             this.Salida.SelectedIndex = 0;
-            this.Salida.Size = new System.Drawing.Size(592, 468);
+            this.Salida.Size = new System.Drawing.Size(553, 468);
             this.Salida.TabIndex = 11;
             // 
             // tabPage1
@@ -363,7 +352,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(584, 439);
+            this.tabPage1.Size = new System.Drawing.Size(545, 439);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Lexico";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -372,8 +361,9 @@
             // 
             this.salidaLexico.Dock = System.Windows.Forms.DockStyle.Fill;
             this.salidaLexico.Location = new System.Drawing.Point(3, 2);
+            this.salidaLexico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.salidaLexico.Name = "salidaLexico";
-            this.salidaLexico.Size = new System.Drawing.Size(578, 435);
+            this.salidaLexico.Size = new System.Drawing.Size(539, 435);
             this.salidaLexico.TabIndex = 0;
             this.salidaLexico.Text = "";
             // 
@@ -383,7 +373,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(584, 439);
+            this.tabPage2.Size = new System.Drawing.Size(545, 439);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Sintactico";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -394,7 +384,7 @@
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage3.Size = new System.Drawing.Size(584, 439);
+            this.tabPage3.Size = new System.Drawing.Size(545, 439);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Semantico";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -405,7 +395,7 @@
             this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage4.Size = new System.Drawing.Size(584, 439);
+            this.tabPage4.Size = new System.Drawing.Size(545, 439);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Hash Table";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -416,7 +406,7 @@
             this.tabPage5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage5.Size = new System.Drawing.Size(584, 439);
+            this.tabPage5.Size = new System.Drawing.Size(545, 439);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Codigo Intermedio";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -450,6 +440,7 @@
             // 
             this.erroresLexicos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.erroresLexicos.Location = new System.Drawing.Point(3, 2);
+            this.erroresLexicos.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.erroresLexicos.Name = "erroresLexicos";
             this.erroresLexicos.Size = new System.Drawing.Size(1239, 150);
             this.erroresLexicos.TabIndex = 0;
@@ -602,12 +593,30 @@
             this.btnMinimizar.UseVisualStyleBackColor = true;
             this.btnMinimizar.Click += new System.EventHandler(this.btnMinimizar_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.contadorLineas);
+            this.panel1.Location = new System.Drawing.Point(13, 72);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(61, 468);
+            this.panel1.TabIndex = 17;
+            // 
+            // contadorLineas
+            // 
+            this.contadorLineas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.contadorLineas.Location = new System.Drawing.Point(0, 0);
+            this.contadorLineas.Name = "contadorLineas";
+            this.contadorLineas.Size = new System.Drawing.Size(61, 468);
+            this.contadorLineas.TabIndex = 0;
+            this.contadorLineas.Text = "";
+            // 
             // IDE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1284, 786);
+            this.ClientSize = new System.Drawing.Size(1292, 782);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnMinimizar);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.panelBotones);
@@ -626,12 +635,12 @@
             this.panelLinCol.ResumeLayout(false);
             this.panelLinCol.PerformLayout();
             this.panelET.ResumeLayout(false);
-            this.panelET.PerformLayout();
             this.Salida.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.Errores.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.panelBotones.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -658,7 +667,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem seleccionartodoToolStripMenuItem;
         private System.Windows.Forms.RichTextBox editorDeTexto;
-        private System.Windows.Forms.Label contadorLineas;
         private System.Windows.Forms.Label Linea;
         private System.Windows.Forms.Label Columna;
         private System.Windows.Forms.Label Col;
@@ -688,6 +696,8 @@
         private System.Windows.Forms.Button btnMinimizar;
         public System.Windows.Forms.RichTextBox salidaLexico;
         private System.Windows.Forms.RichTextBox erroresLexicos;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RichTextBox contadorLineas;
     }
 }
 
