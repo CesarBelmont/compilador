@@ -1,67 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Compilador.analizador_lexico
 {
     class Lexico
     {
         List<Token> lLexico;//Lista para guardar los tokens actuales
-        List<String> clase;//Lista para retornar los tokens actuales
+        List<String> tokensValidos;//Lista para retornar los tokens actuales
         private char[] letras;
         private char[] token;
-        List<TokenLocation> location;
+        List<ubicacionToken> Ubicacion;
         int numErros;
         public Lexico()
         {
             token = new char[100];
 
         }
-
-        public Boolean isSeparator(Char caracter) //verifica si es Tab, salto linea, espacio
-        {
-            return caracter == '\t' || caracter == '\n' || caracter == ' ';
-        }
-        private Boolean isSimbolos(Char caracter) //verifica si es...todo eso
-        {
-            return caracter == ':' || caracter == '=' || caracter == '>' || caracter == '<'
-                || caracter == '!' || caracter == '+' || caracter == '-' || caracter == '*'
-                || caracter == '%' || caracter == '/' || caracter == '(' || caracter == ')'
-                || caracter == '{' || caracter == '}' || caracter == ',' || caracter == ';'
-                || caracter == '.';
-        }
-        private Boolean isCharacterEspecial(Char caracter) //verifica caracteres especiales
-        {
-            return false;
-        }
-        private Boolean isCorchete(Char caracter) //verifica los corchetes
-        {
-            return caracter == '[' || caracter == ']';
-        }
-        private Boolean isOtherCase(Char caracter)
-        {
-            return caracter == '0';
-        }
-
-        public List<Token> detectarToken(String texto)
+        public List<Token> automata(String t)
         {
             lLexico = new List<Token>();
             String tokenActual = "";
-            letras = texto.ToCharArray();
+            letras = t.ToCharArray();
             int fila = 1;
             int columna = 1;
-            location = new List<TokenLocation>();
-            TokenLocation Location;
+            Ubicacion = new List<ubicacionToken>();
+            ubicacionToken ubica;
             String Others = "^[A-Za-z][A-Za-z0-9]*$";
             for (int i = 0; i < letras.Length; i++)
             {
                 columna++;
-                if (!isSeparator(letras[i]) && !isSimbolos(letras[i]) && !isCorchete(letras[i]) && (letras[i] >= 48 && letras[i] <= 57 || (letras[i] >= 65 && letras[i] <= 90) || (letras[i] >= 97 && letras[i] <= 122)))
+                if (!separador(letras[i]) && !simbolos(letras[i]) && !corchete(letras[i]) && (letras[i] >= 48 && letras[i] <= 57 || (letras[i] >= 65 && letras[i] <= 90) || (letras[i] >= 97 && letras[i] <= 122)))
                 {
                     tokenActual += letras[i];
                     if (Regex.IsMatch(tokenActual, Others))
@@ -73,11 +43,11 @@ namespace Compilador.analizador_lexico
                         if (i < (letras.Length - 1) && ((letras[i + 1] >= 65 && letras[i + 1] <= 90) || (letras[i + 1] >= 97 && letras[i + 1] <= 122)))
                         {
                             Token token = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -95,11 +65,11 @@ namespace Compilador.analizador_lexico
                         if (tokenActual != "")
                         {
                             Token token = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -110,11 +80,11 @@ namespace Compilador.analizador_lexico
                             if ((i - 1) != -1 && ((letras[i - 1] >= 48 && letras[i - 1] <= 57) || (letras[i - 1] >= 65 && letras[i - 1] <= 90) || (letras[i - 1] >= 97 && letras[i - 1] <= 122)))
                             {
                                 Token token = new Token();
-                                Location = new TokenLocation();
-                                Location.setFila(fila);
-                                Location.setColumna(columna - (tokenActual.Length - 1));
-                                token.setLocation(Location);
-                                location.Add(Location);
+                                ubica = new ubicacionToken();
+                                ubica.setFila(fila);
+                                ubica.setColumna(columna - (tokenActual.Length - 1));
+                                token.setLocation(ubica);
+                                Ubicacion.Add(ubica);
                                 token.setName(tokenActual);
                                 lLexico.Add(token);
                                 tokenActual = "";
@@ -126,11 +96,11 @@ namespace Compilador.analizador_lexico
                             Token token = new Token();
                             tokenActual += letras[i];
                             tokenActual += letras[i + 1];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -142,11 +112,11 @@ namespace Compilador.analizador_lexico
                             Token token = new Token();
                             tokenActual += letras[i];
                             tokenActual += letras[i + 1];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -157,11 +127,11 @@ namespace Compilador.analizador_lexico
                         {
                             Token token = new Token();
                             tokenActual += letras[i];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -174,11 +144,11 @@ namespace Compilador.analizador_lexico
                         if (tokenActual != "")
                         {
                             Token token = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -188,11 +158,11 @@ namespace Compilador.analizador_lexico
                             Token token = new Token();
                             tokenActual += letras[i];
                             tokenActual += letras[i + 1];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -204,11 +174,11 @@ namespace Compilador.analizador_lexico
                         {
                             Token token = new Token();
                             tokenActual += letras[i];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -220,11 +190,11 @@ namespace Compilador.analizador_lexico
                         if (tokenActual != "")
                         {
                             Token token = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -234,11 +204,11 @@ namespace Compilador.analizador_lexico
                             Token token = new Token();
                             tokenActual += letras[i];
                             tokenActual += letras[i + 1];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -250,11 +220,11 @@ namespace Compilador.analizador_lexico
                         {
                             Token token = new Token();
                             tokenActual += letras[i];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna);
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna);
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -266,11 +236,11 @@ namespace Compilador.analizador_lexico
                         if (tokenActual != "")
                         {
                             Token token = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -280,11 +250,11 @@ namespace Compilador.analizador_lexico
                             Token token = new Token();
                             tokenActual += letras[i];
                             tokenActual += letras[i + 1];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -296,11 +266,11 @@ namespace Compilador.analizador_lexico
                         {
                             Token token = new Token();
                             tokenActual += letras[i];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -312,11 +282,11 @@ namespace Compilador.analizador_lexico
                         if (tokenActual != "")
                         {
                             Token token = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -326,11 +296,11 @@ namespace Compilador.analizador_lexico
                             Token token = new Token();
                             tokenActual += letras[i];
                             tokenActual += letras[i + 1];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -342,11 +312,11 @@ namespace Compilador.analizador_lexico
                         {
                             Token token = new Token();
                             tokenActual += letras[i];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -358,11 +328,11 @@ namespace Compilador.analizador_lexico
                         if (tokenActual != "")
                         {
                             Token token = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -372,11 +342,11 @@ namespace Compilador.analizador_lexico
                             Token token = new Token();
                             tokenActual += letras[i];
                             tokenActual += letras[i + 1];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -388,40 +358,38 @@ namespace Compilador.analizador_lexico
                         {
                             Token token = new Token();
                             tokenActual += letras[i];
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
                             continue;
                         }
                     }
-                    else if (letras[i] == '*' || letras[i] == '%' || letras[i] == '('
-                       || letras[i] == ')' || letras[i] == '{'
-                       || letras[i] == '}' || letras[i] == ',' || letras[i] == ';')
+                    else if (letras[i] == '*' || letras[i] == '%' || letras[i] == '(' || letras[i] == ')' || letras[i] == '{' || letras[i] == '}' || letras[i] == ',' || letras[i] == ';')
                     {
                         if (tokenActual != "")
                         {
                             Token toke = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            toke.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            toke.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             toke.setName(tokenActual);
                             lLexico.Add(toke);
                             tokenActual = "";
                         }
                         Token token = new Token();
                         tokenActual += letras[i];
-                        Location = new TokenLocation();
-                        Location.setFila(fila);
-                        Location.setColumna(columna - (tokenActual.Length - 1));
-                        token.setLocation(Location);
-                        location.Add(Location);
+                        ubica = new ubicacionToken();
+                        ubica.setFila(fila);
+                        ubica.setColumna(columna - (tokenActual.Length - 1));
+                        token.setLocation(ubica);
+                        Ubicacion.Add(ubica);
                         token.setName(tokenActual);
                         lLexico.Add(token);
                         tokenActual = "";
@@ -432,11 +400,11 @@ namespace Compilador.analizador_lexico
                         if (tokenActual != "")
                         {
                             Token token = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -452,11 +420,11 @@ namespace Compilador.analizador_lexico
                                 tokenActual += letras[i];
                                 i++;
                             }
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             tokenActual = "";
                             continue;
@@ -490,11 +458,11 @@ namespace Compilador.analizador_lexico
                                 }
                                 i++;
                             }
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             tokenActual = "";
                             continue;
@@ -514,11 +482,11 @@ namespace Compilador.analizador_lexico
                             if (tokenActual != "")
                             {
                                 token = new Token();
-                                Location = new TokenLocation();
-                                Location.setFila(fila);
-                                Location.setColumna(columna - (tokenActual.Length - 1));
-                                token.setLocation(Location);
-                                location.Add(Location);
+                                ubica = new ubicacionToken();
+                                ubica.setFila(fila);
+                                ubica.setColumna(columna - (tokenActual.Length - 1));
+                                token.setLocation(ubica);
+                                Ubicacion.Add(ubica);
                                 token.setName(tokenActual);
                                 lLexico.Add(token);
 
@@ -526,12 +494,12 @@ namespace Compilador.analizador_lexico
 
                             }
                             token = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
                             columna--;
-                            Location.setColumna(columna);
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica.setColumna(columna);
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             tokenActual += letras[i];
                             token.setName(tokenActual);
                             lLexico.Add(token);
@@ -541,31 +509,25 @@ namespace Compilador.analizador_lexico
                         }
                         else
                         {
-
                             Token token = new Token();
                             tokenActual += letras[i];
                             i++;
-                            columna++;                          
+                            columna++;
                             while ((i < letras.Length))
                             {
 
-                                if (isNumber(letras[i].ToString()) || !isSeparator(letras[i]) && !isSimbolos(letras[i]))
+                                if (isNumber(letras[i].ToString()) || !separador(letras[i]) && !simbolos(letras[i]))
                                 {
 
                                     if (!isNumber(letras[i].ToString()))
                                     {
-
-                                        Console.WriteLine("aqui hay algo que no esta bien");
                                         i--;
                                         break;
                                     }
                                     else
                                     {
                                         tokenActual += letras[i];
-                                        Console.WriteLine("Ok");
-
                                     }
-
                                 }
                                 else
                                 {
@@ -575,11 +537,11 @@ namespace Compilador.analizador_lexico
                                 i++;
                                 columna++;
                             }
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
@@ -592,48 +554,48 @@ namespace Compilador.analizador_lexico
                         if (tokenActual != "")
                         {
                             Token token = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
                         }
                         Token toke = new Token();
                         tokenActual += letras[i];
-                        Location = new TokenLocation();
-                        Location.setFila(fila);
-                        Location.setColumna(columna);
-                        toke.setLocation(Location);
-                        location.Add(Location);
+                        ubica = new ubicacionToken();
+                        ubica.setFila(fila);
+                        ubica.setColumna(columna);
+                        toke.setLocation(ubica);
+                        Ubicacion.Add(ubica);
                         toke.setName(tokenActual);
                         lLexico.Add(toke);
                         tokenActual = "";
                         continue;
                     }
-                    else if (!isSeparator(letras[i]))
+                    else if (!separador(letras[i]))
                     {
                         if (tokenActual != "")
                         {
                             Token token = new Token();
-                            Location = new TokenLocation();
-                            Location.setFila(fila);
-                            Location.setColumna(columna - (tokenActual.Length - 1));
-                            token.setLocation(Location);
-                            location.Add(Location);
+                            ubica = new ubicacionToken();
+                            ubica.setFila(fila);
+                            ubica.setColumna(columna - (tokenActual.Length - 1));
+                            token.setLocation(ubica);
+                            Ubicacion.Add(ubica);
                             token.setName(tokenActual);
                             lLexico.Add(token);
                             tokenActual = "";
                         }
                         tokenActual += letras[i];
                         Token toke = new Token();
-                        Location = new TokenLocation();
-                        Location.setFila(fila);
-                        Location.setColumna(columna - (tokenActual.Length - 1));
-                        toke.setLocation(Location);
-                        location.Add(Location);
+                        ubica = new ubicacionToken();
+                        ubica.setFila(fila);
+                        ubica.setColumna(columna - (tokenActual.Length - 1));
+                        toke.setLocation(ubica);
+                        Ubicacion.Add(ubica);
                         toke.setName(tokenActual);
                         lLexico.Add(toke);
                         tokenActual = "";
@@ -641,11 +603,11 @@ namespace Compilador.analizador_lexico
                     if (tokenActual != "")
                     {
                         Token token = new Token();
-                        Location = new TokenLocation();
-                        Location.setFila(fila);
-                        Location.setColumna(columna - (tokenActual.Length - 1));
-                        token.setLocation(Location);
-                        location.Add(Location);
+                        ubica = new ubicacionToken();
+                        ubica.setFila(fila);
+                        ubica.setColumna(columna - (tokenActual.Length - 1));
+                        token.setLocation(ubica);
+                        Ubicacion.Add(ubica);
                         token.setName(tokenActual);
                         lLexico.Add(token);
                         tokenActual = "";
@@ -662,16 +624,41 @@ namespace Compilador.analizador_lexico
             if (tokenActual != "")
             {
                 Token token = new Token();
-                Location = new TokenLocation();
-                Location.setFila(fila);
-                Location.setColumna(columna - (tokenActual.Length - 1));
-                token.setLocation(Location);
-                location.Add(Location);
+                ubica = new ubicacionToken();
+                ubica.setFila(fila);
+                ubica.setColumna(columna - (tokenActual.Length - 1));
+                token.setLocation(ubica);
+                Ubicacion.Add(ubica);
                 token.setName(tokenActual);
                 lLexico.Add(token);
                 tokenActual = "";
             }
-            return lLexico;//se retorna la lista para escribirla en el espacio de Lexico
+            return lLexico;
+        }
+
+        public Boolean separador(Char caracter) //verifica si es Tab, salto linea, espacio
+        {
+            return caracter == '\t' || caracter == '\n' || caracter == ' ';
+        }
+        private Boolean simbolos(Char caracter) //verifica si es...todo eso
+        {
+            return caracter == ':' || caracter == '=' || caracter == '>' || caracter == '<'
+                || caracter == '!' || caracter == '+' || caracter == '-' || caracter == '*'
+                || caracter == '%' || caracter == '/' || caracter == '(' || caracter == ')'
+                || caracter == '{' || caracter == '}' || caracter == ',' || caracter == ';'
+                || caracter == '.';
+        }
+        private Boolean caracterEspecial(Char caracter) //verifica caracteres especiales
+        {
+            return false;
+        }
+        private Boolean corchete(Char caracter) //verifica los corchetes
+        {
+            return caracter == '[' || caracter == ']';
+        }
+        private Boolean otroCaracter(Char caracter)
+        {
+            return caracter == '0';
         }
 
         private Boolean isNumber(String token) //Verifica si es un numero
@@ -689,285 +676,291 @@ namespace Compilador.analizador_lexico
             }
             return isnumber;
         }
+
         public List<String> getDescription(List<Token> list)
         {
             numErros = 0;
-            String validTokens = "";
-            String patron = "^[A-Za-z_][A-Za-z0-9_]*$";
-            String floatNS = "^[0-9]+\\.[0-9]+$";
-            String intNS = "^[0-9]+$";
-            String intCS = "^[\\+\\-][0-9]+$";
-            String floatCS = "^[\\+\\-][0-9]+\\.[0-9]+$";
+            String tkns = "";
+            //Expresiones regulares 
+            String identificador = "^[A-Za-z_][A-Za-z0-9_]*$"; //Identificadores
+            String floatNS = "^[0-9]+\\.[0-9]+$"; //Flotantes sin signo
+            String intNS = "^[0-9]+$"; //Enteros sin signo
+            String intCS = "^[\\+\\-][0-9]+$"; //enteros con signo
+            String floatCS = "^[\\+\\-][0-9]+\\.[0-9]+$"; //flotantes con signo
+
+            //Crea un archivo para insertarlo en el RichTextBox de errores y salida
             StreamWriter Tokens = File.CreateText(@"../../SalidaLexico/Lexico.txt");
             StreamWriter Errores = File.CreateText(@"../../SalidaLexico/Error.txt");
-            clase = new List<String>();
+
+            tokensValidos = new List<String>();
+
             for (int i = 0; i < list.Count; i++)
             {
                 String aux = list[i].getName();
-                if (isReservada(aux))//Palabras reservadas
+                if (isReservada(aux))
                 {
-                    validTokens += Estados.RESERVADA_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens);
-                    validTokens = "";
+                    tkns += Estados.palabraRes;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns);
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.ASIGNACION_TOKEN)//Asignacion
+                else if (list[i].getName() == Estados.tokenAsignacion)
                 {
-                    validTokens += Estados.ASIGNACION_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.asignacion;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.LLAVE_ABRE_TOKEN)//llave que abre
+                else if (list[i].getName() == Estados.tokenLlaveA)
                 {
-                    validTokens += Estados.LLAVE_ABRE_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.llaveAbre;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.LLAVE_CIERRA_TOKEN)//Llave que cierra
+                else if (list[i].getName() == Estados.tokenLlaveC)
                 {
-                    validTokens += Estados.LLAVE_CIERRA_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.llaveCierra;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.INCREMENTO_TOKEN)//Incremento
+                else if (list[i].getName() == Estados.tokenIncremento)
                 {
-                    validTokens += Estados.INCREMENTO_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.incremento;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.IGUALDAD_TOKEN)// Igualdad
+                else if (list[i].getName() == Estados.tokenIgualdad)
                 {
-                    validTokens += Estados.IGUALDAD_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.igualdad;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.PARENTESIS_ABRE_TOKEN)//Parentesis que abre
+                else if (list[i].getName() == Estados.tokenParentesisA)
                 {
-                    validTokens += Estados.PARENTESIS_ABRE_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.parentesisAbre;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.PARENTESIS_CIERRA_TOKEN)//Parentesis que cierra
+                else if (list[i].getName() == Estados.tokenParentesisC)
                 {
-                    validTokens += Estados.PARENTESIS_CIERRA_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.parentesisCierra;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.PUNTO_COMA_TOKEN)//Punto y coma
+                else if (list[i].getName() == Estados.tokenPuntoComa)
                 {
-                    validTokens += Estados.PUNTO_COMA_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.puntoComa;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.COMA_TOKEN)//Coma
+                else if (list[i].getName() == Estados.tokenComa)
                 {
-                    validTokens += Estados.COMA_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.coma;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.DECREMENTO_TOKEN)//Decremento
+                else if (list[i].getName() == Estados.tokenDecremento)
                 {
-                    validTokens += Estados.DECREMENTO_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.decremento;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.DIFERENTE_TOKEN)//Diferente de
+                else if (list[i].getName() == Estados.tokenDiferente)
                 {
-                    validTokens += Estados.DIFERENTE_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.diferente;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.DIVISION_TOKEN)//DIVISION
+                else if (list[i].getName() == Estados.tokenDivision)
                 {
-                    validTokens += Estados.DIVISION_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.division;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.MAS_TOKEN)//MAS
+                else if (list[i].getName() == Estados.tokenMas)
                 {
-                    validTokens += Estados.MAS_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.mas;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.MAYOR_QUE_TOKEN)//MAYOR QUE
+                else if (list[i].getName() == Estados.tokenMayor)
                 {
-                    validTokens += Estados.MAYOR_QUE_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.mayorQue;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.MENOR_QUE_TOKEN)//MENOR QUE
+                else if (list[i].getName() == Estados.tokenMenor)
                 {
-                    validTokens += Estados.MENOR_QUE_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.menorQue;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.MENOS_TOKEN)//MENOS
+                else if (list[i].getName() == Estados.tokenMenos)
                 {
-                    validTokens += Estados.MENOS_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.menos;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.MODULO_TOKEN)//MODULO
+                else if (list[i].getName() == Estados.tokenModulo)
                 {
-                    validTokens += Estados.MODULO_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.modulo;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.MULTI_TOKEN)//MULTIPLICACION
+                else if (list[i].getName() == Estados.tokenMultiplica)
                 {
-                    validTokens += Estados.MULTI_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.multiplicacion;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.MAYOR_IGUAL_TOKEN)//Llave que cierra
+                else if (list[i].getName() == Estados.tokenMayorIgual)
                 {
-                    validTokens += Estados.MAYOR_IGUAL_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.mayorIgual;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName() == Estados.MENOR_IGUAL_TOKEN)//Llave que cierra
+                else if (list[i].getName() == Estados.tokenMenorIgual)
                 {
-                    validTokens += Estados.MENOR_IGUAL_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.menotIgual;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName().Contains(Estados.COMENTARIO_SIMPLE_TOKEN))
+                else if (list[i].getName().Contains(Estados.tokenComentarioS))
                 {
-                    validTokens += Estados.COMENTARIO_SIMPLE_DESCRIPTION;
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.comentarioSimple;
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (list[i].getName().Contains(Estados.COMENTARIO_MULTIPLE_TOKEN))
+                else if (list[i].getName().Contains(Estados.tokenComentarioM))
                 {
-                    validTokens += Estados.COMENTARIO_MULTIPLE_DESCRIPTION;
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.comentarioMultiple;
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
-                else if (Regex.IsMatch(list[i].getName(), patron))
+                else if (Regex.IsMatch(list[i].getName(), identificador))
                 {
-                    validTokens += Estados.ID_DESCRIPTION;
-                    clase.Add(validTokens);
-                    Tokens.WriteLine(list[i] + " " + validTokens + "\n");
-                    validTokens = "";
+                    tkns += Estados.identificador;
+                    tokensValidos.Add(tkns);
+                    Tokens.WriteLine(list[i] + " " + tkns + "\n");
+                    tkns = "";
                     continue;
                 }
                 else if (Regex.IsMatch(list[i].getName(), floatNS))
                 {
-                    validTokens += Estados.NUM_FLOAT_SSIGNO_DESCRIPTION;
-                    clase.Add(validTokens);
+                    tkns += Estados.numeroFlotanteSS;
+                    tokensValidos.Add(tkns);
                     if (list.Count != 0)
                     {
-                        Tokens.WriteLine(list[i] + " " + validTokens + "\n");
+                        Tokens.WriteLine(list[i] + " " + tkns + "\n");
                     }
-                    validTokens = "";
+                    tkns = "";
                     continue;
                 }
                 else if (Regex.IsMatch(list[i].getName(), intNS))
                 {
-                    validTokens += Estados.NUM_INT_SSIGNO_DESCRIPTION;
-                    clase.Add(validTokens);
+                    tkns += Estados.numeroEnteroSS;
+                    tokensValidos.Add(tkns);
                     if (list.Count != 0)
                     {
-                        Tokens.WriteLine(list[i] + " " + validTokens + "\n");
+                        Tokens.WriteLine(list[i] + " " + tkns + "\n");
                     }
-                    validTokens = "";
+                    tkns = "";
                     continue;
                 }
                 else if (Regex.IsMatch(list[i].getName(), intCS))
                 {
-                    validTokens += Estados.NUM_INT_CSIGNO_DESCRIPTION;
-                    clase.Add(validTokens);
+                    tkns += Estados.numeroEnteroCS;
+                    tokensValidos.Add(tkns);
                     if (list.Count != 0)
                     {
-                        Tokens.WriteLine(list[i] + " " + validTokens + "\n");
+                        Tokens.WriteLine(list[i] + " " + tkns + "\n");
                     }
-                    validTokens = "";
+                    tkns = "";
                     continue;
                 }
                 else if (Regex.IsMatch(list[i].getName(), floatCS))
                 {
-                    validTokens += Estados.NUM_FLOAT_CSIGNO_DESCRIPTION;
-                    clase.Add(validTokens);
+                    tkns += Estados.numeroFlotanteCS;
+                    tokensValidos.Add(tkns);
                     if (list.Count != 0)
                     {
-                        Tokens.WriteLine(list[i] + " " + validTokens + "\n");
+                        Tokens.WriteLine(list[i] + " " + tkns + "\n");
                     }
-                    validTokens = "";
+                    tkns = "";
                     continue;
                 }
                 else
                 {
-                    validTokens += Estados.ERROR_DESCRIPTION;
-                    clase.Add(validTokens);
+                    tkns += Estados.error;
+                    tokensValidos.Add(tkns);
                     numErros++;
                     if (list.Count != 0)
                     {
-                        Errores.WriteLine(list[i] + " " + validTokens + "\n");
+                        Errores.WriteLine(list[i] + " " + tkns + "\n");
                     }
-                    validTokens = "";
+                    tkns = "";
                 }
             }
             Tokens.Close();
             Errores.Close();
-            return clase;
+            return tokensValidos;
         }
-        public int getNumErros()
+        public int numeroErrores()
         {
             return numErros;
         }
-        public List<TokenLocation> getLocationList()
+        public List<ubicacionToken> listaUbicaciones()
         {
-            return location;
+            return Ubicacion;
         }
         private Boolean isReservada(String token)
         {
-            return token == Estados.MAIN_TOKEN || token == Estados.THEN_TOKEN || token == Estados.ELSE_TOKEN
-                || token == Estados.DO_TOKEN || token == Estados.WHILE_TOKEN || token == Estados.REAL_TOKEN
-                || token == Estados.END_TOKEN || token == Estados.FLOAT_TOKEN || token == Estados.INT_TOKEN
-                || token == Estados.BOOLEAN_TOKEN || token == Estados.IF_TOKEN || token == Estados.COUT_TOKEN || token == Estados.CIN_TOKEN;
+            return token == Estados.tokenMain || token == Estados.tokenThen || token == Estados.tokenElse
+                || token == Estados.tokenDo || token == Estados.tokenWhile || token == Estados.tokenReal || token == Estados.tokenUntil
+                || token == Estados.tokenEnd || token == Estados.tokenFloat || token == Estados.tokenInt
+                || token == Estados.tokenBoolean || token == Estados.tokenIf || token == Estados.tokenCout || token == Estados.tokenCin;
         }
     }
 }

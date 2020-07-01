@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Compilador.analizador_lexico
 {
-    class TokenLocation //Localizar en donde se encuentra el token
+    class ubicacionToken //Localizar en donde se encuentra el token
     {
         private int fila;
         private int columna;
 
-        public TokenLocation(int fila, int columna)
+        public ubicacionToken(int fila, int columna)
         {
             this.fila = fila;
             this.columna = columna;
         }
-        public TokenLocation()
+        public ubicacionToken()
         {
 
         }

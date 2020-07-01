@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="analizador_sintactico\aSintactico.cs" />
     <EmbeddedResource Include="IDE.resx">
       <DependentUpon>IDE.cs</DependentUpon>
     </EmbeddedResource>
@@ -86,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SalidaLexico\" />
+    <Folder Include="SalidaSintactico\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

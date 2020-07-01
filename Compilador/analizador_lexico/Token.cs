@@ -9,10 +9,10 @@ namespace Compilador.analizador_lexico
     class Token
     {
         private String name; //Nombre del token
-        private TokenLocation Location; //Su ubicacion
+        private ubicacionToken Location; //Su ubicacion
         private int tokenDescriptor; //Su descripcion
 
-        public Token(String name, TokenLocation Location)
+        public Token(String name, ubicacionToken Location)
         {
             this.name = name;
             this.Location = Location;
@@ -33,12 +33,12 @@ namespace Compilador.analizador_lexico
             return this.name;
         }
 
-        public void setLocation(TokenLocation Location)
+        public void setLocation(ubicacionToken Location)
         {
             this.Location = Location;
         }
 
-        public TokenLocation getLocation()
+        public ubicacionToken getLocation()
         {
             return this.Location;
         }

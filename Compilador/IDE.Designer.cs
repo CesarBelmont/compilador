@@ -59,6 +59,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.salidaLexico = new System.Windows.Forms.RichTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.arbolSintactico = new System.Windows.Forms.TreeView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -66,6 +67,7 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.erroresLexicos = new System.Windows.Forms.RichTextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.erroresSintacticos = new System.Windows.Forms.RichTextBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.btnGuardar = new System.Windows.Forms.Button();
@@ -84,8 +86,10 @@
             this.panelET.SuspendLayout();
             this.Salida.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.Errores.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            this.tabPage7.SuspendLayout();
             this.panelBotones.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -369,6 +373,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.arbolSintactico);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
@@ -377,6 +382,14 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Sintactico";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // arbolSintactico
+            // 
+            this.arbolSintactico.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.arbolSintactico.Location = new System.Drawing.Point(3, 2);
+            this.arbolSintactico.Name = "arbolSintactico";
+            this.arbolSintactico.Size = new System.Drawing.Size(539, 435);
+            this.arbolSintactico.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -448,6 +461,7 @@
             // 
             // tabPage7
             // 
+            this.tabPage7.Controls.Add(this.erroresSintacticos);
             this.tabPage7.Location = new System.Drawing.Point(4, 25);
             this.tabPage7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage7.Name = "tabPage7";
@@ -456,6 +470,15 @@
             this.tabPage7.TabIndex = 1;
             this.tabPage7.Text = "Errores Sintacticos";
             this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // erroresSintacticos
+            // 
+            this.erroresSintacticos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.erroresSintacticos.Location = new System.Drawing.Point(3, 2);
+            this.erroresSintacticos.Name = "erroresSintacticos";
+            this.erroresSintacticos.Size = new System.Drawing.Size(1239, 150);
+            this.erroresSintacticos.TabIndex = 0;
+            this.erroresSintacticos.Text = "";
             // 
             // tabPage8
             // 
@@ -629,6 +652,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "IDE";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Compilador";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -637,8 +661,10 @@
             this.panelET.ResumeLayout(false);
             this.Salida.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.Errores.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
+            this.tabPage7.ResumeLayout(false);
             this.panelBotones.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -698,6 +724,8 @@
         private System.Windows.Forms.RichTextBox erroresLexicos;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RichTextBox contadorLineas;
+        private System.Windows.Forms.TreeView arbolSintactico;
+        private System.Windows.Forms.RichTextBox erroresSintacticos;
     }
 }
 

@@ -27,6 +27,7 @@ namespace Compilador
     }
     public partial class IDE : Form
     {
+        aSintactico sintactico;
         analizador_lexico.Lexico lexico;
         List<analizador_lexico.Token> lLexico;
         List<String> clase;
@@ -243,12 +244,25 @@ namespace Compilador
 
         private void button1_Click(object sender, EventArgs e)
         {
-            lLexico = lexico.detectarToken(editorDeTexto.Text);
+            lLexico = lexico.automata(editorDeTexto.Text);
             clase = lexico.getDescription(lLexico);
             errLexico();
-            if (lexico.getNumErros() == 0)
+            if (lexico.numeroErrores() == 0)
             {
-                DialogResult noErr = MessageBox.Show("Sin errores lexicos", "Compilacion completa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                arbolSintactico.Nodes.Clear();
+                sintactico = new aSintactico(lLexico, arbolSintactico, clase);
+                sintactico.analisisSintactico();
+                erroresSintacticos.Text = sintactico.Errores();
+                if (sintactico.Errores().Length == 0)
+                {
+                    DialogResult noErrS = MessageBox.Show("Sin errores sintacticos", "Compilacion completa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    DialogResult siErrS = MessageBox.Show("Se han detectado errores sintacticos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                DialogResult noErr = MessageBox.Show("Sin errores lexicos", "Analisis Lexico Completado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -340,31 +354,31 @@ namespace Compilador
             MatchCollection matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Red);
 
-            regex = new Regex("^(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)");
+            regex = new Regex("^(if|then|else|end|do|while|cout|cin|int|until|float|main|boolean|real)");
             matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Red);
 
-            regex = new Regex(" (if|then|else|end|do|while|cout|cin|int|float|main|boolean|real) ");
+            regex = new Regex(" (if|then|else|end|do|while|cout|cin|int|float|until|main|boolean|real) ");
             matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Red);
 
-            regex = new Regex(" (if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)");
+            regex = new Regex(" (if|then|else|end|do|while|cout|cin|int|float|until|main|boolean|real)");
             matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Red);
 
-            regex = new Regex(" (if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)\n");
+            regex = new Regex(" (if|then|else|end|do|while|cout|cin|int|float|until|main|boolean|real)\n");
             matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Red);
 
-            regex = new Regex("\t(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)");
+            regex = new Regex("\t(if|then|else|end|do|while|cout|cin|int|float|until|main|boolean|real)");
             matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Red);
 
-            regex = new Regex("\t(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)\n");
+            regex = new Regex("\t(if|then|else|end|do|while|cout|cin|int|float|until|main|boolean|real)\n");
             matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Red);
 
-            regex = new Regex("\n(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)");
+            regex = new Regex("\n(if|then|else|end|do|while|cout|cin|int|float|until|main|boolean|real)");
             matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Red);
 
@@ -373,11 +387,11 @@ namespace Compilador
             matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Red);
 
-            regex = new Regex("(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)([a-zA-Z]|[0-9])+");
+            regex = new Regex("(if|then|else|end|do|while|cout|cin|int|float|until|main|boolean|real)([a-zA-Z]|[0-9])+");
             matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Black);
 
-            regex = new Regex("([a-zA-Z]|[0-9])+(if|then|else|end|do|while|cout|cin|int|float|main|boolean|real)");
+            regex = new Regex("([a-zA-Z]|[0-9])+(if|then|else|end|do|while|until|cout|cin|int|float|main|boolean|real)");
             matches = regex.Matches(editorDeTexto.Text);
             printBase(matches, Color.Black);
 
