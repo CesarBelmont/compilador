@@ -247,12 +247,13 @@ namespace Compilador
             lLexico = lexico.automata(editorDeTexto.Text);
             clase = lexico.getDescription(lLexico);
             errLexico();
+            
             if (lexico.numeroErrores() == 0)
             {
                 arbolSintactico.Nodes.Clear();
                 sintactico = new aSintactico(lLexico, arbolSintactico, clase);
                 sintactico.analisisSintactico();
-                erroresSintacticos.Text = sintactico.Errores();
+                erroresSintacticos.Text = sintactico.Errores();      
                 if (sintactico.Errores().Length == 0)
                 {
                     DialogResult noErrS = MessageBox.Show("Sin errores sintacticos", "Compilacion completa", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -268,7 +269,7 @@ namespace Compilador
             {
                 DialogResult siErr = MessageBox.Show("Se han detectado errores lexicos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+            arbolSintactico.ExpandAll();
             //DialogResult res = MessageBox.Show("No hace nada...aun =)", "Boton secreto que no hace nada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
