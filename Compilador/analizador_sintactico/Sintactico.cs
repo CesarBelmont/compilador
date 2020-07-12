@@ -16,7 +16,6 @@ namespace Compilador
         private Stack<String> stackParentesisAbre;
         private List<analizador_lexico.Token> listaTokens;
         private TreeView arbolSintactico;
-        //StreamWriter Archivo = File.CreateText(@"../../Errores.txt");
         private Boolean abierto = false;
         private Boolean cerrado = false;
         public aSintactico(List<analizador_lexico.Token> listaTokens, TreeView treeSintactico, List<String> tokenTypeList)
@@ -126,8 +125,6 @@ namespace Compilador
                             TreeNode nodeError = new TreeNode("(Error): " + listaTokens[indice].getName());
                             nodeError.Tag = indice;
                             agregarNodo(nodoPrincipal, nodeError);
-                            // agregarError(listaTokens[indice]);
-
                         }
                     }
                     catch (Exception e)
@@ -136,11 +133,8 @@ namespace Compilador
                         TreeNode nodeError = new TreeNode("(Error): " + listaTokens[indice].getName());
                         nodeError.Tag = indice;
                         agregarNodo(nodoPrincipal, nodeError);
-                        //agregarError(listaTokens[indice]);
 
                     }
-
-
                 }
             }
 
@@ -186,8 +180,6 @@ namespace Compilador
                     }
                 }
             }
-
-            // Archivo.Close();
         }
 
         private void agregarError(analizador_lexico.Token token)
@@ -236,25 +228,13 @@ namespace Compilador
                 nodeFactor = new TreeNode(listaTokens[indice].getName());
                 nodeFactor.Tag = indice;
                 indice++;
-                //detectar falta de ( en una expresion con paretensis
                 if (tokenActual(listaTokens[indice].getName(), analizador_lexico.Estados.tokenParentesisC))
                 {
                     if (!tokenActual(listaTokens[indice - 4].getName(), analizador_lexico.Estados.tokenParentesisA))
                     {
-                        //Console.WriteLine("Pos esta raro fijate esperaba un ( ---> " + listaTokens[indice - 4].getName());
                         analizador_lexico.ubicacionToken location = new analizador_lexico.ubicacionToken(listaTokens[indice].getLocation().getFila() + 1, 0);
-                        analizador_lexico.Token nodeError = new analizador_lexico.Token("Falta un PARENTESIS ( ", location); //se debe restar 1 a la fila
-                        agregarError(nodeError);
-                    }
-                    else if (tokenActual(listaTokens[indice].getName(), analizador_lexico.Estados.tokenParentesisA))
-                    {
-                        Console.WriteLine("pos nada :V");
-                    }
-                }
-                else
-                {
-                    //Console.WriteLine("Sigamos con la programacion habitual -> " + listaTokens[indice].getName());
-
+                        analizador_lexico.Token nodeError = new analizador_lexico.Token("Falta un PARENTESIS ( ", location); 
+                    }                    
                 }
             }
             else
@@ -567,7 +547,6 @@ namespace Compilador
                                 listaTokens[indice].setTokenDescription(indice);
                                 TreeNode nodeError = new TreeNode("(Error)" + listaTokens[indice].getName());
                                 nodeError.Tag = indice;
-                                //agregarNodo(nodeRoot, nodeError);
                                 agregarError(listaTokens[indice]);
 
                             }
@@ -626,8 +605,6 @@ namespace Compilador
                             listaTokens[indice].setTokenDescription(indice);
                             TreeNode nodeError = new TreeNode("(Error)" + listaTokens[indice].getName());
                             nodeError.Tag = indice;
-                            //agregarNodo(nodeRoot, nodeError);
-                            //agregarError(listaTokens[indice]);
 
                         }
 
@@ -762,8 +739,6 @@ namespace Compilador
                         listaTokens[indice].setTokenDescription(indice);
                         TreeNode nodeError = new TreeNode("(Error)" + listaTokens[indice].getName());
                         nodeError.Tag = indice;
-                        //agregarNodo(nodeRoot, nodeError);
-                        // agregarError(listaTokens[indice]);
                     }
                     indice++;
                 }
@@ -874,7 +849,6 @@ namespace Compilador
                     TreeNode nodeError = new TreeNode("(Error)" + listaTokens[indice].getName());
                     nodeError.Tag = indice;
                     agregarNodo(nodeRepeat, nodeError);
-                    //  agregarError(listaTokens[indice]);
                     analizador_lexico.Token tokenError = new analizador_lexico.Token("Falta un UNTIL", listaTokens[indice].getLocation());
                     agregarError(tokenError);
                     indice--;
@@ -931,8 +905,6 @@ namespace Compilador
                     listaTokens[indice].setTokenDescription(indice);
                     TreeNode nodeError = new TreeNode("(Error)" + listaTokens[indice].getName());
                     nodeError.Tag = indice;
-                    //agregarNodo(nodeRoot, nodeError);
-                    //agregarError(listaTokens[indice]);
                 }
                 else if (tokenActual(listaTokens[indice].getName(), analizador_lexico.Estados.tokenLlaveC) && !tokenActual(listaTokens[indice + 1].getName(), analizador_lexico.Estados.tokenUntil))
                 {
@@ -940,8 +912,6 @@ namespace Compilador
                     listaTokens[indice].setTokenDescription(indice);
                     TreeNode nodeError = new TreeNode("(Error)" + listaTokens[indice].getName());
                     nodeError.Tag = indice;
-                    //agregarNodo(nodeRoot, nodeError);
-                    // agregarError(listaTokens[indice]);
 
                 }
 
@@ -967,13 +937,11 @@ namespace Compilador
                     indice++;
                     if (!tokenActual(listaTokens[indice].getName(), analizador_lexico.Estados.tokenPuntoComa))
                     {
-                        //agregarError(listaTokens[indice]);
                         indice--;
                     }
                 }
                 else
                 {
-                    // agregarError(listaTokens[indice]);
                     if (!tokenActual(listaTokens[indice].getName(), analizador_lexico.Estados.tokenPuntoComa))
                     {
                         listaTokens[indice].setTokenDescription(indice);
@@ -1065,16 +1033,14 @@ namespace Compilador
             }
             else
             {
-                //agregarError(listaTokens[indice]);
                 listaTokens[indice].setTokenDescription(indice);
                 TreeNode nodeError = new TreeNode("(Error)" + listaTokens[indice].getName());
                 nodeError.Tag = indice;
-                //agregarNodo(nodeRoot, nodeError);
             }
 
         }
 
-        /*private void declaraciones(TreeNode nodeRoot)
+        private void declaraciones(TreeNode nodeRoot)
         {
             try
             {
@@ -1116,16 +1082,12 @@ namespace Compilador
                         analizador_lexico.Token tokenError = new analizador_lexico.Token("Error ", listaTokens[indice].getLocation());
                         agregarError(tokenError);
 
-                        listaTokens[indice].setTokenDescription(indice);
-                       // TreeNode nodeError = new TreeNode("(Error)" + listaTokens[indice].getName());
-                       // nodeError.Tag = indice;
-                       // agregarNodo(nodeType, nodeError);
+                        listaTokens[indice].setTokenDescription(indice);                   
                         if (indice == listaTokens.Count - 1)
                         {
                           indice--;
                             return;
                         }
-                       // indice--;
                         isFirstId = true;
                         break;
                     }
@@ -1154,105 +1116,6 @@ namespace Compilador
 
                 analizador_lexico.Token tokenPuntoComa = new analizador_lexico.Token("(Error)" + analizador_lexico.Estados.tokenPuntoComa, listaTokens[listaTokens.Count - 1].getLocation());
                 agregarError(tokenPuntoComa);
-            }
-
-        }*/
-
-        private void declaraciones(TreeNode nodeRoot)
-        {
-            try
-            {
-                
-                listaTokens[indice].setTokenDescription(indice);
-                TreeNode nodeType = new TreeNode(listaTokens[indice].getName());
-                nodeType.Tag = indice;
-                agregarNodo(nodeRoot, nodeType);
-                indice++;
-                Boolean isFirstId = false;
-                while (!listaTokens[indice].getName().Equals(analizador_lexico.Estados.tokenPuntoComa))
-                {
-                    if (tokenActual(listaTokens[indice].getName(), analizador_lexico.Estados.tokenComa))
-                    {
-                        if (!isFirstId)
-                        {
-                            analizador_lexico.Token tokenError = new analizador_lexico.Token("Se esperaba Identificador", listaTokens[indice].getLocation());
-                            agregarError(tokenError);
-                            listaTokens[indice].setTokenDescription(indice);
-                            TreeNode nodeError = new TreeNode("Error: " + listaTokens[indice].getName());
-                            nodeError.Tag = indice;
-                            agregarNodo(nodeType, nodeError);
-                            isFirstId = true;
-                        }
-                        else
-                        {
-                            isFirstId = false;
-                        }
-                    }
-                    else if (isIdentificador(tipoTokens[indice]))
-                    {
-                        if (!tokenActual(listaTokens[indice].getName(), "suma"))
-                        {
-                            Console.WriteLine("Alto ahi soldado 1" + listaTokens[indice].getName());
-                            listaTokens[indice].setTokenDescription(indice);
-                            TreeNode nodeId = new TreeNode(listaTokens[indice].getName());
-                            nodeId.Tag = indice;
-                            agregarNodo(nodeType, nodeId);
-                            isFirstId = true;
-                        }
-
-                    }
-                    else
-                    {
-
-                        //  analizador_lexico.Token tokenError = new analizador_lexico.Token("Error ", listaTokens[indice].getLocation());
-                        //  agregarError(tokenError);
-                        if (indice == listaTokens.Count - 1)
-                        {
-                            indice--;
-                            return;
-                        }
-                        //  indice++;
-                        //   indice--;
-                        isFirstId = true;
-                        break;
-
-                    }
-                    indice++;
-                }
-                if (!isFirstId)
-                {
-                    analizador_lexico.Token tokenError = new analizador_lexico.Token("Se esperaba Identificador 0 ", listaTokens[indice].getLocation());
-                    agregarError(tokenError);
-                    listaTokens[indice].setTokenDescription(indice);
-                    TreeNode nodeError = new TreeNode("Error: " + listaTokens[indice].getName());
-                    nodeError.Tag = indice;
-                    agregarNodo(nodeType, nodeError);
-                }
-
-                if (!tokenActual(listaTokens[indice].getName(), analizador_lexico.Estados.tokenPuntoComa))
-                {
-                    if (tokenActual(listaTokens[indice].getName(), analizador_lexico.Estados.tokenAsignacion))
-                    {
-                        indice--;
-                        indice--;
-                        analizador_lexico.Token tokenError = new analizador_lexico.Token("Esperaba ; en identificador 1 ", listaTokens[indice].getLocation());
-                        agregarError(tokenError);
-                    }
-                    else
-                    {
-                        analizador_lexico.Token tokenError = new analizador_lexico.Token("Esperaba ; en identificador 2 ", listaTokens[indice].getLocation());
-                        agregarError(tokenError);
-                        indice--;
-                    }
-
-                }
-            }
-            catch (Exception e)
-            {
-
-                analizador_lexico.Token tokenPuntoComa = new analizador_lexico.Token("Falta " + analizador_lexico.Estados.tokenPuntoComa, listaTokens[listaTokens.Count - 1].getLocation());
-                agregarError(tokenPuntoComa);
-                Console.Out.WriteLine(e.GetBaseException());
             }
 
         }
