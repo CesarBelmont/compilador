@@ -60,6 +60,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="analizador_sintactico\aSintactico.cs" />
+    <Compile Include="Semantica\ClonacionArbol.cs" />
+    <Compile Include="Semantica\aSemantico.cs" />
     <EmbeddedResource Include="IDE.resx">
       <DependentUpon>IDE.cs</DependentUpon>
     </EmbeddedResource>

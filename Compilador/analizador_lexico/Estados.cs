@@ -62,7 +62,7 @@ namespace Compilador.analizador_lexico
         public static String menorQue = "Menor que\n";      
         public static String diferente = "Diferente\n";       
         public static String mayorIgual = "Mayor o igual\n";
-        public static String menotIgual = "Menor o igual\n";       
+        public static String menorIgual = "Menor o igual\n";       
         public static String mas = "Signo mas\n";
         public static String menos = "Signo menos\n";        
         public static String multiplicacion = "Signo multiplicacion\n";

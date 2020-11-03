@@ -859,7 +859,7 @@ namespace Compilador.analizador_lexico
                 }
                 else if (list[i].getName() == Estados.tokenMenorIgual)
                 {
-                    tkns += Estados.menotIgual;
+                    tkns += Estados.menorIgual;
                     tokensValidos.Add(tkns);
                     Tokens.WriteLine(list[i] + " " + tkns + "\n");
                     tkns = "";

@@ -1,14 +1,11 @@
-﻿using System;
+﻿using Compilador.Semantica;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Compilador
@@ -28,15 +25,17 @@ namespace Compilador
     public partial class IDE : Form
     {
         aSintactico sintactico;
+        aSemantico semantico;
         analizador_lexico.Lexico lexico;
         List<analizador_lexico.Token> lLexico;
         List<String> clase;
         Lineas linea;
+        DataTable dataTable = new DataTable();
         [DllImport("User32.dll")]
         public extern static int GetScrollPos(IntPtr hWnd, int nBar);
         [DllImport("User32.dll")]
         public extern static int SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-        int cont;
+        int cont;  
 
 
         public IDE()
@@ -69,7 +68,7 @@ namespace Compilador
             abrir.Title = "Abrir archivo";
             if (abrir.ShowDialog() == DialogResult.OK) //Si se decide abrir ese archivo
             {
-                cont = 1;               
+                cont = 1;
                 contadorLineas.Text = "1";
                 editorDeTexto.Clear();
                 System.IO.StreamReader sr = new System.IO.StreamReader(abrir.FileName); //Lector de archivos
@@ -160,7 +159,6 @@ namespace Compilador
             column++;
         }
 
-
         private void editorDeTexto_TextChanged(object sender, EventArgs e)
         {
             int index = editorDeTexto.SelectionStart;
@@ -178,7 +176,7 @@ namespace Compilador
             contadorLineas.Text = auxiliar.ToString();
             startPrinting();
         }
-    
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             SaveFileDialog guardar = new SaveFileDialog(); //Cuadro de dialogo
@@ -247,29 +245,46 @@ namespace Compilador
             lLexico = lexico.automata(editorDeTexto.Text);
             clase = lexico.getDescription(lLexico);
             errLexico();
-            
+
             if (lexico.numeroErrores() == 0)
             {
                 arbolSintactico.Nodes.Clear();
                 sintactico = new aSintactico(lLexico, arbolSintactico, clase);
                 sintactico.analisisSintactico();
-                erroresSintacticos.Text = sintactico.Errores();      
+                erroresSintacticos.Text = sintactico.Errores();
                 if (sintactico.Errores().Length == 0)
                 {
-                    DialogResult noErrS = MessageBox.Show("Sin errores sintacticos", "Compilacion completa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //DialogResult noErrS = MessageBox.Show("Sin errores sintacticos", "Compilacion completa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    semantico = new aSemantico(lLexico, clase);
+                    semantico.setTreeViewSintactico(arbolSintactico);
+                    semantico.startSemantic();
+                    arbolSemantico.Nodes.Clear();
+                    TreeNodeCollection newSemanticColeccion = semantico.getTreeViewSemanticNew().Nodes;
+                    TreeNode root;
+                    foreach (TreeNode currentNode in newSemanticColeccion)
+                    {
+                        root = new TreeNode(currentNode.Text);
+                        ClonacionArbol.cloneNode(root, currentNode);
+                        arbolSemantico.Nodes.Add(root);
+                    }
+                    erroresSintacticos.Text = semantico.getErrors().ToString();
+                    tablahash.Rows.Clear();
+                    this.dataTable = semantico.getDataTable();
+                    tablahash.DataSource = dataTable.DefaultView;
                 }
                 else
                 {
                     DialogResult siErrS = MessageBox.Show("Se han detectado errores sintacticos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
-                DialogResult noErr = MessageBox.Show("Sin errores lexicos", "Analisis Lexico Completado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+               // DialogResult noErr = MessageBox.Show("Sin errores lexicos", "Analisis Lexico Completado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
                 DialogResult siErr = MessageBox.Show("Se han detectado errores lexicos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             arbolSintactico.ExpandAll();
+            arbolSemantico.ExpandAll();
             //DialogResult res = MessageBox.Show("No hace nada...aun =)", "Boton secreto que no hace nada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
