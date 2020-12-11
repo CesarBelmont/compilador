@@ -71,8 +71,6 @@ namespace Compilador.Semantica
         private Stack<String> stackResults;
         private Stack<int> stackPositions;
         private List<String> listComparations;
-
-        #region "Constructor"
         public aSemantico(List<analizador_lexico.Token> tokens, List<String> clase)
         {
 
@@ -82,15 +80,13 @@ namespace Compilador.Semantica
             location = 0;
             vHashTable = new HashTableObject[intSizeRows, intSizeCols];
         }
-        #endregion
-
-        #region "Metodos Terminados"
         private int getHashCode(string id)
         {
             char[] charID = id.ToCharArray();
             int intHashCode = 0;
             for (int i = 0; i < charID.Length; i++)
                 intHashCode = ((intHashCode << 4) + charID[i]) % intSizeRows;
+            
             return intHashCode;
         }
         private int getCollisionColumn(string id)
@@ -251,12 +247,14 @@ namespace Compilador.Semantica
             {
                 case 0:
                     sbErrors.Append("Error: " + getError(tokenErrorType, token));
-                    sbErrors.Append(" [Fila: " + token.getLocation().getFila() + ", columna: " + token.getLocation().getColumna() + " ]");
+                    sbErrors.Append(" Ubicado en la Fila: " + token.getLocation().getFila() + " y columna: " + token.getLocation().getColumna());
                     sbErrors.AppendLine();
                     break;
                 case 1:
                     sbErrors.Append("Error: " + getError(tokenErrorType, token));
                     sbErrors.AppendLine();
+                    break;
+                default:
                     break;
             }
         }
@@ -1071,8 +1069,6 @@ namespace Compilador.Semantica
                 fillDeclaration(currentNode, type);
             }
         }
-
-
         public TreeView getTreeViewSemanticNew()
         {
             return treeViewSintactico;
@@ -1097,7 +1093,6 @@ namespace Compilador.Semantica
             }
             return tokensSem[row].getName();
         }
-
         public void setTreeViewSintactico(TreeView sintactico)
         {
             TreeNodeCollection allNodes = sintactico.Nodes;
@@ -1111,7 +1106,6 @@ namespace Compilador.Semantica
                 treeViewSintactico.Nodes.Add(child);
             }
         }
-
         public void cloneTreeViewSintactico(TreeNode parent, TreeNode child)
         {
             TreeNode newChild;
@@ -1172,11 +1166,18 @@ namespace Compilador.Semantica
         }
         public void startSemantic()
         {
-            dataTable = new DataTable();//hashCode, nombre de variable, tipo, valor, numero de linea, registro 
-            //dataTable.Columns.Add("HashCode", typeof(int));
+            dataTable = new DataTable();//hashCode, nombre de variable, tipo, valor, numero de linea, registro           
             dataTable.Columns.Add("Nombre", typeof(string));
             dataTable.Columns.Add("Tipo", typeof(string));
             dataTable.Columns.Add("Valor", typeof(string));
+            DataColumn reg = new DataColumn();
+            reg.DataType = System.Type.GetType("System.Int32");
+            reg.AutoIncrement = true;
+            reg.AutoIncrementSeed = 1;
+            reg.AutoIncrementStep = 1;
+            reg.ColumnName = "Registro";
+            dataTable.Columns.Add(reg);
+            //dataTable.Columns.Add("Registro", typeof(int));
             dataTable.Columns.Add("Numero de Linea", typeof(string));
             hashCode = 0;
             column = 0;
@@ -1203,7 +1204,7 @@ namespace Compilador.Semantica
                     }
                     else
                     {
-                        vTreeNodeToken[currentPosition].label += "(" + NULL + ")" ;
+                       vTreeNodeToken[currentPosition].label += "(" + NULL + ")" ;
                     }
                 }
                 else if (isOperator(currentNode.Text))
@@ -1214,7 +1215,7 @@ namespace Compilador.Semantica
                     }
                     else
                     {
-                        vTreeNodeToken[currentPosition].label += " { " + NULL + " }";
+                       vTreeNodeToken[currentPosition].label += " { " + NULL + " }";
                     }
 
                 }
@@ -1288,8 +1289,6 @@ namespace Compilador.Semantica
                 fillDeclaration(currentNode, flag);
             }
         }
-
-
         private void refreshCompareTree()
         {
             int globalPosition = 1;
@@ -1385,13 +1384,13 @@ namespace Compilador.Semantica
             {
                 typeLeft = vHashTable[getHashCode(auxLeft), getCollisionColumn(auxLeft)].type;
                 auxLeft = vHashTable[getHashCode(auxLeft), getCollisionColumn(auxLeft)].value;
-                node.FirstNode.Text += " { " + auxLeft + " }";
+                node.FirstNode.Text += " ( " + auxLeft + " )";
             }
             if (!isNumber(auxRight))
             {
                 typeRight = vHashTable[getHashCode(auxRight), getCollisionColumn(auxRight)].type;
                 auxRight = vHashTable[getHashCode(auxRight), getCollisionColumn(auxRight)].value;
-                node.LastNode.Text += " { " + auxRight + " }";
+                node.LastNode.Text += " ( " + auxRight + " )";
             }
             if (auxLeft == null || auxRight == null)
             {
@@ -1421,11 +1420,11 @@ namespace Compilador.Semantica
                     if (isNumber(auxLeft) && isNumber(auxRight))
                     {
                         flag = isSameDataType(auxLeft, auxOp, auxRight, typeLeft);
-                        //node.Text += " { " + flag + ", " + (flag ? "1" : "0") + " }";
+                        node.Text += " { " + flag + ", " + (flag ? "1" : "0") + " }";
                     }
                     else
                     {
-                        //node.Text += " { false, 0 }";
+                        node.Text += " { false, 0 }";
                         setErrors(tokensSem[0], TokenErrorNulo, 1, tokenDescription[0]);
                     }
                 }
@@ -1459,18 +1458,16 @@ namespace Compilador.Semantica
                     if (isNumber(auxLeft) && isNumber(auxRight))
                     {
                         flag = isSameDataType(auxLeft, auxOp, auxRight, typeLeft);
-                        //node.Text += " { " + flag + ", " + (flag ? "1" : "0") + " }";
+                        node.Text += " { " + flag + ", " + (flag ? "1" : "0") + " }";
                     }
                     else
                     {
-                        //node.Text += " { false, 0 }";
+                        node.Text += " { false, 0 }";
                         setErrors(tokensSem[0], TokenErrorNulo, 1, tokenDescription[0]);
                     }
                 }
             }
         }
-
-
         private Boolean isInt(String token)
         {
             return token.IndexOf(".") == -1;
@@ -1490,8 +1487,6 @@ namespace Compilador.Semantica
                 return isComparingFloat(leftValue, auxOp, rightValue);
             }
         }
-        #endregion
-
         private bool isComparingIntegers(int auxLeft, string auxOp, int auxRight)
         {
             if (auxOp.Equals(analizador_lexico.Estados.tokenMenor))
@@ -1548,7 +1543,6 @@ namespace Compilador.Semantica
             }
             return false;
         }
-
         public DataTable getDataTable()
         {
             for (int i = 0; i < intSizeRows; i++)
@@ -1557,11 +1551,11 @@ namespace Compilador.Semantica
                 {
                     if (vHashTable[i, j].idName != null)
                     {
-                        dataTable.Rows.Add(
-                            //vHashTable[i, j].hashCode,
+                        dataTable.Rows.Add(                          
                             vHashTable[i, j].idName,
                             vHashTable[i, j].type,
                             vHashTable[i, j].value,
+                            null,
                             vHashTable[i, j].lineNumber
                             );
 
@@ -1570,7 +1564,6 @@ namespace Compilador.Semantica
             }
             return dataTable;
         }
-
         private int getTokenSemanticoPosition(int node)
         {
             int position = 0;

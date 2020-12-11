@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -245,7 +246,6 @@ namespace Compilador
             lLexico = lexico.automata(editorDeTexto.Text);
             clase = lexico.getDescription(lLexico);
             errLexico();
-
             if (lexico.numeroErrores() == 0)
             {
                 arbolSintactico.Nodes.Clear();
@@ -267,10 +267,19 @@ namespace Compilador
                         ClonacionArbol.cloneNode(root, currentNode);
                         arbolSemantico.Nodes.Add(root);
                     }
-                    erroresSintacticos.Text = semantico.getErrors().ToString();
-                    tablahash.Rows.Clear();
+                    string erroresAux = semantico.getErrors().ToString();
+                    List<string> erroresS = erroresAux.Split('\n').ToList();
+                    List<string> norepErr = erroresS.Distinct().ToList();
+                    erroresSemanticos.Text = "";
+                    foreach(var item in norepErr)
+                    {
+                        erroresSemanticos.Text += item + '\n';
+                    }
+                    //erroresSemanticos.Text = a;
+                    //erroresSemanticos.Text = semantico.getErrors().ToString();
                     this.dataTable = semantico.getDataTable();
                     tablahash.DataSource = dataTable.DefaultView;
+                    
                 }
                 else
                 {

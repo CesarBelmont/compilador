@@ -83,6 +83,7 @@
             this.btnMinimizar = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.contadorLineas = new System.Windows.Forms.RichTextBox();
+            this.erroresSemanticos = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.panelLinCol.SuspendLayout();
             this.panelET.SuspendLayout();
@@ -95,6 +96,7 @@
             this.Errores.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
+            this.tabPage8.SuspendLayout();
             this.panelBotones.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -269,7 +271,7 @@
             this.editorDeTexto.Location = new System.Drawing.Point(0, 0);
             this.editorDeTexto.Margin = new System.Windows.Forms.Padding(4);
             this.editorDeTexto.Name = "editorDeTexto";
-            this.editorDeTexto.Size = new System.Drawing.Size(627, 468);
+            this.editorDeTexto.Size = new System.Drawing.Size(497, 468);
             this.editorDeTexto.TabIndex = 2;
             this.editorDeTexto.Text = "";
             this.editorDeTexto.WordWrap = false;
@@ -336,7 +338,7 @@
             this.panelET.Location = new System.Drawing.Point(80, 71);
             this.panelET.Margin = new System.Windows.Forms.Padding(4);
             this.panelET.Name = "panelET";
-            this.panelET.Size = new System.Drawing.Size(627, 468);
+            this.panelET.Size = new System.Drawing.Size(497, 468);
             this.panelET.TabIndex = 10;
             // 
             // Salida
@@ -346,11 +348,11 @@
             this.Salida.Controls.Add(this.SalidaSemantico);
             this.Salida.Controls.Add(this.tabPage4);
             this.Salida.Controls.Add(this.tabPage5);
-            this.Salida.Location = new System.Drawing.Point(714, 76);
+            this.Salida.Location = new System.Drawing.Point(584, 76);
             this.Salida.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Salida.Name = "Salida";
             this.Salida.SelectedIndex = 0;
-            this.Salida.Size = new System.Drawing.Size(553, 468);
+            this.Salida.Size = new System.Drawing.Size(683, 468);
             this.Salida.TabIndex = 11;
             // 
             // tabPage1
@@ -360,7 +362,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(545, 439);
+            this.tabPage1.Size = new System.Drawing.Size(675, 439);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Lexico";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -371,7 +373,7 @@
             this.salidaLexico.Location = new System.Drawing.Point(3, 2);
             this.salidaLexico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.salidaLexico.Name = "salidaLexico";
-            this.salidaLexico.Size = new System.Drawing.Size(539, 435);
+            this.salidaLexico.Size = new System.Drawing.Size(669, 435);
             this.salidaLexico.TabIndex = 0;
             this.salidaLexico.Text = "";
             // 
@@ -382,7 +384,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(545, 439);
+            this.tabPage2.Size = new System.Drawing.Size(675, 439);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Sintactico";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -392,7 +394,7 @@
             this.arbolSintactico.Dock = System.Windows.Forms.DockStyle.Fill;
             this.arbolSintactico.Location = new System.Drawing.Point(3, 2);
             this.arbolSintactico.Name = "arbolSintactico";
-            this.arbolSintactico.Size = new System.Drawing.Size(539, 435);
+            this.arbolSintactico.Size = new System.Drawing.Size(669, 435);
             this.arbolSintactico.TabIndex = 0;
             // 
             // SalidaSemantico
@@ -402,7 +404,7 @@
             this.SalidaSemantico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SalidaSemantico.Name = "SalidaSemantico";
             this.SalidaSemantico.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.SalidaSemantico.Size = new System.Drawing.Size(545, 439);
+            this.SalidaSemantico.Size = new System.Drawing.Size(675, 439);
             this.SalidaSemantico.TabIndex = 2;
             this.SalidaSemantico.Text = "Semantico";
             this.SalidaSemantico.UseVisualStyleBackColor = true;
@@ -412,7 +414,7 @@
             this.arbolSemantico.Dock = System.Windows.Forms.DockStyle.Fill;
             this.arbolSemantico.Location = new System.Drawing.Point(3, 2);
             this.arbolSemantico.Name = "arbolSemantico";
-            this.arbolSemantico.Size = new System.Drawing.Size(539, 435);
+            this.arbolSemantico.Size = new System.Drawing.Size(669, 435);
             this.arbolSemantico.TabIndex = 0;
             // 
             // tabPage4
@@ -422,7 +424,7 @@
             this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage4.Size = new System.Drawing.Size(545, 439);
+            this.tabPage4.Size = new System.Drawing.Size(675, 439);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Hash Table";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -435,7 +437,7 @@
             this.tablahash.Name = "tablahash";
             this.tablahash.RowHeadersWidth = 51;
             this.tablahash.RowTemplate.Height = 24;
-            this.tablahash.Size = new System.Drawing.Size(539, 435);
+            this.tablahash.Size = new System.Drawing.Size(669, 435);
             this.tablahash.TabIndex = 0;
             // 
             // tabPage5
@@ -444,7 +446,7 @@
             this.tabPage5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage5.Size = new System.Drawing.Size(545, 439);
+            this.tabPage5.Size = new System.Drawing.Size(675, 439);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Codigo Intermedio";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -507,6 +509,7 @@
             // 
             // tabPage8
             // 
+            this.tabPage8.Controls.Add(this.erroresSemanticos);
             this.tabPage8.Location = new System.Drawing.Point(4, 25);
             this.tabPage8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage8.Name = "tabPage8";
@@ -658,6 +661,15 @@
             this.contadorLineas.TabIndex = 0;
             this.contadorLineas.Text = "";
             // 
+            // erroresSemanticos
+            // 
+            this.erroresSemanticos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.erroresSemanticos.Location = new System.Drawing.Point(3, 2);
+            this.erroresSemanticos.Name = "erroresSemanticos";
+            this.erroresSemanticos.Size = new System.Drawing.Size(1239, 150);
+            this.erroresSemanticos.TabIndex = 0;
+            this.erroresSemanticos.Text = "";
+            // 
             // IDE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -693,6 +705,7 @@
             this.Errores.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
+            this.tabPage8.ResumeLayout(false);
             this.panelBotones.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -756,6 +769,7 @@
         private System.Windows.Forms.RichTextBox erroresSintacticos;
         private System.Windows.Forms.DataGridView tablahash;
         private System.Windows.Forms.TreeView arbolSemantico;
+        private System.Windows.Forms.RichTextBox erroresSemanticos;
     }
 }
 
