@@ -51,6 +51,16 @@
     <Compile Include="analizador_lexico\Lexico.cs" />
     <Compile Include="analizador_lexico\LocalizacionToken.cs" />
     <Compile Include="analizador_lexico\Estados.cs" />
+    <Compile Include="Codigo_Intermedio\CinInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Codigo_Intermedio\CinInput.Designer.cs">
+      <DependentUpon>CinInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Codigo_Intermedio\CodigoIntermedio.cs" />
+    <Compile Include="Codigo_Intermedio\CodigoIntermedioAux.cs" />
+    <Compile Include="Codigo_Intermedio\CodigoIntermedioEtiqueta.cs" />
+    <Compile Include="Codigo_Intermedio\VirtualMachine.cs" />
     <Compile Include="IDE.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +72,9 @@
     <Compile Include="analizador_sintactico\aSintactico.cs" />
     <Compile Include="Semantica\ClonacionArbol.cs" />
     <Compile Include="Semantica\aSemantico.cs" />
+    <EmbeddedResource Include="Codigo_Intermedio\CinInput.resx">
+      <DependentUpon>CinInput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IDE.resx">
       <DependentUpon>IDE.cs</DependentUpon>
     </EmbeddedResource>

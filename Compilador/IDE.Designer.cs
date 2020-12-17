@@ -65,13 +65,16 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tablahash = new System.Windows.Forms.DataGridView();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.CInter = new System.Windows.Forms.RichTextBox();
             this.Errores = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.erroresLexicos = new System.Windows.Forms.RichTextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.erroresSintacticos = new System.Windows.Forms.RichTextBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.erroresSemanticos = new System.Windows.Forms.RichTextBox();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.Resultados = new System.Windows.Forms.RichTextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.panelBotones = new System.Windows.Forms.Panel();
             this.btnNuevo = new System.Windows.Forms.Button();
@@ -83,7 +86,7 @@
             this.btnMinimizar = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.contadorLineas = new System.Windows.Forms.RichTextBox();
-            this.erroresSemanticos = new System.Windows.Forms.RichTextBox();
+            this.dataGridRegistro = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.panelLinCol.SuspendLayout();
             this.panelET.SuspendLayout();
@@ -93,12 +96,15 @@
             this.SalidaSemantico.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tablahash)).BeginInit();
+            this.tabPage5.SuspendLayout();
             this.Errores.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage8.SuspendLayout();
+            this.tabPage9.SuspendLayout();
             this.panelBotones.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridRegistro)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -442,6 +448,7 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.CInter);
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
             this.tabPage5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage5.Name = "tabPage5";
@@ -450,6 +457,15 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Codigo Intermedio";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // CInter
+            // 
+            this.CInter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CInter.Location = new System.Drawing.Point(3, 2);
+            this.CInter.Name = "CInter";
+            this.CInter.Size = new System.Drawing.Size(669, 435);
+            this.CInter.TabIndex = 0;
+            this.CInter.Text = "";
             // 
             // Errores
             // 
@@ -519,8 +535,18 @@
             this.tabPage8.Text = "Errores Semanticos";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
+            // erroresSemanticos
+            // 
+            this.erroresSemanticos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.erroresSemanticos.Location = new System.Drawing.Point(3, 2);
+            this.erroresSemanticos.Name = "erroresSemanticos";
+            this.erroresSemanticos.Size = new System.Drawing.Size(1239, 150);
+            this.erroresSemanticos.TabIndex = 0;
+            this.erroresSemanticos.Text = "";
+            // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.Resultados);
             this.tabPage9.Location = new System.Drawing.Point(4, 25);
             this.tabPage9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage9.Name = "tabPage9";
@@ -529,6 +555,15 @@
             this.tabPage9.TabIndex = 3;
             this.tabPage9.Text = "Resultados";
             this.tabPage9.UseVisualStyleBackColor = true;
+            // 
+            // Resultados
+            // 
+            this.Resultados.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Resultados.Location = new System.Drawing.Point(3, 2);
+            this.Resultados.Name = "Resultados";
+            this.Resultados.Size = new System.Drawing.Size(1239, 150);
+            this.Resultados.TabIndex = 0;
+            this.Resultados.Text = "";
             // 
             // btnGuardar
             // 
@@ -661,14 +696,16 @@
             this.contadorLineas.TabIndex = 0;
             this.contadorLineas.Text = "";
             // 
-            // erroresSemanticos
+            // dataGridRegistro
             // 
-            this.erroresSemanticos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.erroresSemanticos.Location = new System.Drawing.Point(3, 2);
-            this.erroresSemanticos.Name = "erroresSemanticos";
-            this.erroresSemanticos.Size = new System.Drawing.Size(1239, 150);
-            this.erroresSemanticos.TabIndex = 0;
-            this.erroresSemanticos.Text = "";
+            this.dataGridRegistro.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridRegistro.Location = new System.Drawing.Point(951, 569);
+            this.dataGridRegistro.Name = "dataGridRegistro";
+            this.dataGridRegistro.RowHeadersWidth = 51;
+            this.dataGridRegistro.RowTemplate.Height = 24;
+            this.dataGridRegistro.Size = new System.Drawing.Size(20, 25);
+            this.dataGridRegistro.TabIndex = 18;
+            this.dataGridRegistro.Visible = false;
             // 
             // IDE
             // 
@@ -676,6 +713,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1292, 782);
+            this.Controls.Add(this.dataGridRegistro);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnMinimizar);
             this.Controls.Add(this.btnCerrar);
@@ -702,12 +740,15 @@
             this.SalidaSemantico.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tablahash)).EndInit();
+            this.tabPage5.ResumeLayout(false);
             this.Errores.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
             this.tabPage8.ResumeLayout(false);
+            this.tabPage9.ResumeLayout(false);
             this.panelBotones.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridRegistro)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -770,6 +811,9 @@
         private System.Windows.Forms.DataGridView tablahash;
         private System.Windows.Forms.TreeView arbolSemantico;
         private System.Windows.Forms.RichTextBox erroresSemanticos;
+        private System.Windows.Forms.RichTextBox CInter;
+        private System.Windows.Forms.RichTextBox Resultados;
+        private System.Windows.Forms.DataGridView dataGridRegistro;
     }
 }
 

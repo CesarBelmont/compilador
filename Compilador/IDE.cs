@@ -32,11 +32,17 @@ namespace Compilador
         List<String> clase;
         Lineas linea;
         DataTable dataTable = new DataTable();
+        public static String HASH_CODE = "Hash Code";
+        public static String VARIABLE = "Variable";
+        public static String TYPE = "Tipo";
+        public static String VALUE = "Valor";
+        private String[] registroTitle = { HASH_CODE, VARIABLE, TYPE, VALUE };
+        DataTable dataRegistro = new DataTable();
         [DllImport("User32.dll")]
         public extern static int GetScrollPos(IntPtr hWnd, int nBar);
         [DllImport("User32.dll")]
         public extern static int SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-        int cont;  
+        int cont;
 
 
         public IDE()
@@ -48,6 +54,7 @@ namespace Compilador
             cont = 0;
             contadorLineas.Text = "1";
             contadorLineas.Enabled = false;
+            setDataRegistroTableTitles();
         }
 
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -271,7 +278,7 @@ namespace Compilador
                     List<string> erroresS = erroresAux.Split('\n').ToList();
                     List<string> norepErr = erroresS.Distinct().ToList();
                     erroresSemanticos.Text = "";
-                    foreach(var item in norepErr)
+                    foreach (var item in norepErr)
                     {
                         erroresSemanticos.Text += item + '\n';
                     }
@@ -279,14 +286,50 @@ namespace Compilador
                     //erroresSemanticos.Text = semantico.getErrors().ToString();
                     this.dataTable = semantico.getDataTable();
                     tablahash.DataSource = dataTable.DefaultView;
-                    
+                    if (semantico.getErrors().Length == 0)
+                    {
+                        Codigo_Intermedio.CodigoIntermedio codigoIntermedio = new Codigo_Intermedio.CodigoIntermedio(arbolSemantico, arbolSintactico);
+                        string CI = codigoIntermedio.getSBCodigo().ToString() + "HALT";
+                        string CIAux = CI.Replace("setId_Int &", "LD");
+                        CIAux = CIAux.Replace("setId_Float &", "LD");
+                        CIAux = CIAux.Replace("setId_Int", "LD");
+                        CIAux = CIAux.Replace("setId_Float", "LD");
+                        CIAux = CIAux.Replace("getConst_Int", "LDC");
+                        CIAux = CIAux.Replace("getConst_Float", "LDC");
+                        CIAux = CIAux.Replace("sum_Int", "ADD");
+                        CIAux = CIAux.Replace("sum_Float", "ADD");
+                        CIAux = CIAux.Replace("IF_", "SUB ");
+                        // CIAux = CIAux.Replace("\r", " calvo");
+
+                        while (CIAux.IndexOf("false") != -1)
+                        {
+                            CIAux = CIAux.Remove(CIAux.IndexOf("false"), (CIAux.IndexOf(",") - CIAux.IndexOf("false")) + 1);
+                        }
+                        while (CIAux.IndexOf("true") != -1)
+                        {
+
+                            CIAux = CIAux.Remove(CIAux.IndexOf("true"), (CIAux.IndexOf(",") - CIAux.IndexOf("true")) + 1);
+
+                        }
+                        CIAux = CIAux.Replace("LDC %", "\n");
+
+                        CInter.Text = CIAux;
+                        //CInter.Text = CI;
+                        Codigo_Intermedio.VirtualMachine virtualMachine = new Codigo_Intermedio.VirtualMachine(codigoIntermedio.getSBCodigo());
+                        virtualMachine.Compilar();
+                        Resultados.Text = virtualMachine.getResultados().ToString();
+                        // dataGridRegistro.Rows.Clear();
+                        this.dataTable = virtualMachine.getRegistros();
+                        setUpRegistroTable();
+                    }
+
                 }
                 else
                 {
                     DialogResult siErrS = MessageBox.Show("Se han detectado errores sintacticos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
-               // DialogResult noErr = MessageBox.Show("Sin errores lexicos", "Analisis Lexico Completado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // DialogResult noErr = MessageBox.Show("Sin errores lexicos", "Analisis Lexico Completado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -295,6 +338,35 @@ namespace Compilador
             arbolSintactico.ExpandAll();
             arbolSemantico.ExpandAll();
             //DialogResult res = MessageBox.Show("No hace nada...aun =)", "Boton secreto que no hace nada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        private void setDataRegistroTableTitles()
+        {
+            this.dataGridRegistro.ColumnCount = registroTitle.Length;
+            for (int i = 0; i < registroTitle.Length; i++)
+            {
+                this.dataGridRegistro.Columns[i].Name = registroTitle[i];
+                DataGridViewColumn lineColumn = dataGridRegistro.Columns[i];
+                lineColumn.Width = 225;
+            }
+        }
+
+        private void setUpRegistroTable()
+        {
+            String[] row = new String[registroTitle.Length];
+            DataRow dataRow;
+            for (int i = 0; i < dataRegistro.Rows.Count; i++)
+            {
+                dataRow = dataRegistro.Rows[i];
+                for (int j = 0; j < dataRegistro.Columns.Count; j++)
+                {
+                    row[j] = dataRow[registroTitle[j]].ToString();
+                    if (j == 2 && row[j].Length == 0)
+                    {
+                        row[j] = "Sin tipo";
+                    }
+                }
+                dataGridRegistro.Rows.Add(row);
+            }
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)
