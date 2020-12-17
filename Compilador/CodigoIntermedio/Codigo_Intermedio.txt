@@ -1,0 +1,11 @@
+LD 0 segundos
+LD 0 dias
+INI dias
+LD segundos
+LD dias
+LDC 86400
+MUL
+
+ST
+OUT  segundos
+HALT

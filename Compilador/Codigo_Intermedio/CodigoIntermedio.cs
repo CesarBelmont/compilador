@@ -393,6 +393,33 @@ namespace Compilador.Codigo_Intermedio
                 if (isComparador(tnNext.Text))
                 {
                     int currentPosition = (int)tnNext.Tag;
+                    this.sbEtiquetas.Append("LD " + this.list_TvSintactico[currentPosition + 1]);
+                    this.sbEtiquetas.AppendLine("");
+                    this.sbEtiquetas.Append("LDC " + this.list_TvSintactico[currentPosition + 2]);
+                    this.sbEtiquetas.AppendLine("");
+                    switch (this.list_TvSintactico[currentPosition])
+                    {
+                        case "==":
+                            this.sbEtiquetas.Append("JEQ");
+                            break;
+                        case "!=":
+                            this.sbEtiquetas.Append("JNE");
+                            break;
+                        case "<":
+                            this.sbEtiquetas.Append("JLT");
+                            break;
+                        case ">":
+                            this.sbEtiquetas.Append("JGT");
+                            break;
+                        case "<=":
+                            this.sbEtiquetas.Append("JLE");
+                            break;
+                        case ">=":
+                            this.sbEtiquetas.Append("JGE");
+                            break;
+
+                    }
+                    this.sbEtiquetas.AppendLine("");
                     String comparationResult = getBoolean(this.list_TvSemantico[currentPosition]);
                     String labelResult = comparationResult + " " + this.list_TvSintactico[currentPosition + 1] + " " + this.list_TvSintactico[currentPosition]
                    + " " + this.list_TvSintactico[currentPosition + 2];
@@ -489,6 +516,33 @@ namespace Compilador.Codigo_Intermedio
                 if (isComparador(currentNode.Text))
                 {
                     int currentPosition = (int)currentNode.Tag;
+                    this.sbEtiquetas.Append("LD " + this.list_TvSintactico[currentPosition + 1]);
+                    this.sbEtiquetas.AppendLine("");
+                    this.sbEtiquetas.Append("LDC " + this.list_TvSintactico[currentPosition + 2]);
+                    this.sbEtiquetas.AppendLine("");
+                    switch (this.list_TvSintactico[currentPosition])
+                    {
+                        case "==":
+                            this.sbEtiquetas.Append("JEQ");
+                            break;
+                        case "!=":
+                            this.sbEtiquetas.Append("JNE");
+                            break;
+                        case "<":
+                            this.sbEtiquetas.Append("JLT");
+                            break;
+                        case ">":
+                            this.sbEtiquetas.Append("JGT");
+                            break;
+                        case "<=":
+                            this.sbEtiquetas.Append("JLE");
+                            break;
+                        case ">=":
+                            this.sbEtiquetas.Append("JGE");
+                            break;
+
+                    }
+                    this.sbEtiquetas.AppendLine("");
                     String comparationResult = getBoolean(this.list_TvSemantico[currentPosition]);
                     String labelResult = comparationResult + " " + this.list_TvSintactico[currentPosition + 1] + " " + this.list_TvSintactico[currentPosition]
                     + " " + this.list_TvSintactico[currentPosition + 2];
@@ -506,9 +560,34 @@ namespace Compilador.Codigo_Intermedio
             {
                 if (isComparador(tnNext.Text))
                 {
-
-
                     int currentPosition = (int)tnNext.Tag;
+                    this.sbEtiquetas.Append("LD " + this.list_TvSintactico[currentPosition + 1]);
+                    this.sbEtiquetas.AppendLine("");
+                    this.sbEtiquetas.Append("LDC " + this.list_TvSintactico[currentPosition + 2]);
+                    this.sbEtiquetas.AppendLine("");
+                    switch (this.list_TvSintactico[currentPosition])
+                    {
+                        case "==":
+                            this.sbEtiquetas.Append("JEQ");
+                            break;
+                        case "!=":
+                            this.sbEtiquetas.Append("JNE");
+                            break;
+                        case "<":
+                            this.sbEtiquetas.Append("JLT");
+                            break;
+                        case ">":
+                            this.sbEtiquetas.Append("JGT");
+                            break;
+                        case "<=":
+                            this.sbEtiquetas.Append("JLE");
+                            break;
+                        case ">=":
+                            this.sbEtiquetas.Append("JGE");
+                            break;
+
+                    }
+                    this.sbEtiquetas.AppendLine("");
                     String comparationResult = getBoolean(this.list_TvSemantico[currentPosition]);
                     String labelResult = comparationResult + " " + this.list_TvSintactico[currentPosition + 1] + " " + this.list_TvSintactico[currentPosition]
                      + " " + this.list_TvSintactico[currentPosition + 2];

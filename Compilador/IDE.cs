@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -289,16 +290,42 @@ namespace Compilador
                     if (semantico.getErrors().Length == 0)
                     {
                         Codigo_Intermedio.CodigoIntermedio codigoIntermedio = new Codigo_Intermedio.CodigoIntermedio(arbolSemantico, arbolSintactico);
-                        string CI = codigoIntermedio.getSBCodigo().ToString() + "HALT";
+                        string CI = codigoIntermedio.getSBCodigo().ToString() + "HALT\n";
                         string CIAux = CI.Replace("setId_Int &", "LD");
                         CIAux = CIAux.Replace("setId_Float &", "LD");
+                        CIAux = CIAux.Replace("getId_Int", "LD");
+                        CIAux = CIAux.Replace("getId_Float", "LD");
+                        CIAux = CIAux.Replace("getId_Boolean &", "LD");
+                        CIAux = CIAux.Replace("getId_Boolean", "LD");
                         CIAux = CIAux.Replace("setId_Int", "LD");
                         CIAux = CIAux.Replace("setId_Float", "LD");
                         CIAux = CIAux.Replace("getConst_Int", "LDC");
                         CIAux = CIAux.Replace("getConst_Float", "LDC");
                         CIAux = CIAux.Replace("sum_Int", "ADD");
                         CIAux = CIAux.Replace("sum_Float", "ADD");
+                        CIAux = CIAux.Replace("res_Int", "SUB");
+                        CIAux = CIAux.Replace("res_Float", "SUB");
+                        CIAux = CIAux.Replace("mul_Int", "MUL");
+                        CIAux = CIAux.Replace("mul_Float", "MUL");
+                        CIAux = CIAux.Replace("div_Int", "DIV");
+                        CIAux = CIAux.Replace("div_Float", "DIV");
+                        CIAux = CIAux.Replace("mod_Int", "MOD");
+                        CIAux = CIAux.Replace("mod_Float", "MOD");
                         CIAux = CIAux.Replace("IF_", "SUB ");
+                        CIAux = CIAux.Replace("WHILE_", "SUB ");
+                        CIAux = CIAux.Replace("DO_", "SUB "); 
+                        //CIAux = CIAux.Replace("DO_", "\r");
+                        CIAux = CIAux.Replace("LDC %", "\r");
+                        CIAux = CIAux.Replace("READ_Int", "INI");
+                        CIAux = CIAux.Replace("READ_Float", "INF");
+                        CIAux = CIAux.Replace("END_", "LDA ");
+                        CIAux = CIAux.Replace("WHILEOUT_", "LDA ");
+                        CIAux = CIAux.Replace("ELSE_", "JEQ ");
+                        CIAux = CIAux.Replace("WHILERETURN_", "JEQ ");
+                        CIAux = CIAux.Replace("UNTIL_", "JEQ ");
+                        CIAux = CIAux.Replace("PRINT_Float", "OUT ");
+                        CIAux = CIAux.Replace("PRINT_Int", "OUT ");
+                        CIAux = CIAux.Replace("PRINT_Boolean", "OUT ");
                         // CIAux = CIAux.Replace("\r", " calvo");
 
                         while (CIAux.IndexOf("false") != -1)
@@ -311,10 +338,10 @@ namespace Compilador
                             CIAux = CIAux.Remove(CIAux.IndexOf("true"), (CIAux.IndexOf(",") - CIAux.IndexOf("true")) + 1);
 
                         }
-                        CIAux = CIAux.Replace("LDC %", "\n");
-
                         CInter.Text = CIAux;
-                        //CInter.Text = CI;
+                        StreamWriter Codigo_Intermedio = File.CreateText(@"../../CodigoIntermedio/Codigo_Intermedio.txt");
+                        Codigo_Intermedio.Write(CIAux);
+                        Codigo_Intermedio.Close();
                         Codigo_Intermedio.VirtualMachine virtualMachine = new Codigo_Intermedio.VirtualMachine(codigoIntermedio.getSBCodigo());
                         virtualMachine.Compilar();
                         Resultados.Text = virtualMachine.getResultados().ToString();
