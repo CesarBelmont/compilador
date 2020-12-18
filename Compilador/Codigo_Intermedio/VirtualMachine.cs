@@ -317,45 +317,48 @@ namespace Compilador.Codigo_Intermedio
 
         private bool isTrueBreak(string izq, string op, string der)
         {
+
             if (isMayorQue(op))
             {
-                if (Int32.Parse(izq) > Int32.Parse(der))
+                if (float.Parse(izq) > float.Parse(der)) //calvo
+                  
                     return true;
             }
             else
             {
                 if (isMayorIgual(op))
                 {
-                    if (Int32.Parse(izq) >= Int32.Parse(der))
-                        return true;
+                    if (float.Parse(izq) >= float.Parse(der))
+                    return true;
+
                 }
                 else
                 {
                     if (isMenorQue(op))
                     {
-                        if (Int32.Parse(izq) < Int32.Parse(der))
+                        if (float.Parse(izq) < float.Parse(der))
                             return true;
                     }
                     else
                     {
                         if (isMenorIgual(op))
                         {
-                            if (Int32.Parse(izq) <= Int32.Parse(der))
+                            if (float.Parse(izq) <= float.Parse(der))
                                 return true;
                         }
                         else
                         {
                             if (isIgualIgual(op))
                             {
-                                if (Int32.Parse(izq) == Int32.Parse(der))
+                                if (float.Parse(izq) == float.Parse(der))
                                     return true;
                             }
                             else
                             {
                                 if (isDiferente(op))
                                 {
-                                    if (Int32.Parse(izq) != Int32.Parse(der))
-                                        return true;
+                                    if (float.Parse(izq) != float.Parse(der))
+                                         return true;
                                 }
                             }
                         }

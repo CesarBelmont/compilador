@@ -1,11 +1,116 @@
-LD 0 segundos
-LD 0 dias
-INI dias
-LD segundos
-LD dias
-LDC 86400
-MUL
+LD 0 N
+LD 0 Fabrica
+LD 0 Mes
+LD 0 auxProduccion
+LD 0 i
+LD 0 mes1
+LD 0 mes2
+LD 0 mes3
+LD 0 mes4
+LD 0 mes5
+LD 0 mes6
+LD 0 mes7
+LD 0 mes8
+LD 0 mes9
+LD 0 mes10
+LD 0 mes11
+LD 0 mes12
+LD 0 mAno
+LD 0 fAno
+LD mAno
+LDC 0
+ST
+INI N
+LD i
+LD N
+ST
+SUB 0
+INI Fabrica
+INI mes1
+INI mes2
+INI mes3
+INI mes4
+INI mes5
+INI mes6
+INI mes7
+INI mes8
+INI mes9
+INI mes10
+INI mes11
+INI mes12
+LD auxProduccion
+LD mes1
+LD mes2
+ADD
+
+LD mes3
+ADD
+
+LD mes4
+ADD
+
+LD mes5
+ADD
+
+LD mes6
+ADD
+
+LD mes7
+ADD
+
+LD mes8
+ADD
+
+LD mes9
+ADD
+
+LD mes10
+ADD
+
+LD mes11
+ADD
+
+LD mes12
+ADD
 
 ST
-OUT  segundos
+LD auxProduccion
+LDC mAno
+JGT
+SUB 0 
+LD fAno
+LD Fabrica
+ST
+LD mAno
+LD auxProduccion
+ST
+LDA 0
+LD auxProduccion
+LDC 3000000
+JGE
+SUB 1 
+OUT  Fabrica
+OUT  auxProduccion
+LDA 1
+LD auxProduccion
+LDC 3000000
+JLT
+SUB 2 true auxProduccion<3000000
+,
+OUT  Fabrica
+OUT  auxProduccion
+LDA 2
+LD i
+LD i
+LDC 1
+SUB
+
+ST
+LD i
+LDC 0
+JGT
+JEQ 0 false i > 0
+,
+OUT  fAno
+OUT  mAno
 HALT

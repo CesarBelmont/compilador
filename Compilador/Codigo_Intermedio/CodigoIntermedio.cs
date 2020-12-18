@@ -424,7 +424,9 @@ namespace Compilador.Codigo_Intermedio
                     String labelResult = comparationResult + " " + this.list_TvSintactico[currentPosition + 1] + " " + this.list_TvSintactico[currentPosition]
                    + " " + this.list_TvSintactico[currentPosition + 2];
                     mVoidSetBoolean(CodigoIntermedioEtiqueta.strUntil, this.stackRepeat.Peek(), labelResult);
+                    this.sbEtiquetas.Append(",\n");
                     int intBreak = this.stackRepeat.Pop();
+
                     if (this.stackBreakDo.Count > 0)
                     {
                         while (this.stackBreakDo.Peek().IndexOf(intBreak.ToString()) != -1)

@@ -327,16 +327,21 @@ namespace Compilador
                         CIAux = CIAux.Replace("PRINT_Int", "OUT ");
                         CIAux = CIAux.Replace("PRINT_Boolean", "OUT ");
                         // CIAux = CIAux.Replace("\r", " calvo");
-
-                        while (CIAux.IndexOf("false") != -1)
+                        try
                         {
-                            CIAux = CIAux.Remove(CIAux.IndexOf("false"), (CIAux.IndexOf(",") - CIAux.IndexOf("false")) + 1);
-                        }
-                        while (CIAux.IndexOf("true") != -1)
+                            while (CIAux.IndexOf("false") != -1)
+                            {
+                                CIAux = CIAux.Remove(CIAux.IndexOf("false"), (CIAux.IndexOf(",") - CIAux.IndexOf("false")) + 1);
+                            }
+                            while (CIAux.IndexOf("true") != -1)
+                            {
+
+                                CIAux = CIAux.Remove(CIAux.IndexOf("true"), (CIAux.IndexOf(",") - CIAux.IndexOf("true")) + 1);
+
+                            }
+                        } catch(Exception err)
                         {
-
-                            CIAux = CIAux.Remove(CIAux.IndexOf("true"), (CIAux.IndexOf(",") - CIAux.IndexOf("true")) + 1);
-
+                            Console.WriteLine(err);
                         }
                         CInter.Text = CIAux;
                         StreamWriter Codigo_Intermedio = File.CreateText(@"../../CodigoIntermedio/Codigo_Intermedio.txt");

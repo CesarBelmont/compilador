@@ -56,7 +56,7 @@ namespace Compilador.Codigo_Intermedio
                     case 'i':
                         if (mBoolKeys(e.KeyChar))
                         {
-                            if (e.KeyChar == '.')
+                            if (e.KeyChar == '.' || e.KeyChar == ',')
                                 e.Handled = true;
                             if (flagBase)
                                 e.Handled = true;
@@ -71,7 +71,7 @@ namespace Compilador.Codigo_Intermedio
                         {
                             if (this.flagDecimal)
                             {
-                                if (e.KeyChar == '.')
+                                if (e.KeyChar == '.' || e.KeyChar == ',')
                                     e.Handled = true;
                             }
                             if (flagBase)
