@@ -32,50 +32,6 @@ Compilador.analizador_lexico.Token Coma
 Compilador.analizador_lexico.Token Identificador 
 
 
-Compilador.analizador_lexico.Token Punto y coma
-
-
-Compilador.analizador_lexico.Token Palabra reservada 
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Coma
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Coma
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Coma
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Coma
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Coma
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Coma
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
 Compilador.analizador_lexico.Token Coma
 
 
@@ -116,6 +72,18 @@ Compilador.analizador_lexico.Token Punto y coma
 
 
 Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Coma
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Coma
+
 
 Compilador.analizador_lexico.Token Identificador 
 
@@ -135,21 +103,13 @@ Compilador.analizador_lexico.Token Numero entero sin signo
 Compilador.analizador_lexico.Token Punto y coma
 
 
-Compilador.analizador_lexico.Token Palabra reservada 
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Punto y coma
-
-
 Compilador.analizador_lexico.Token Identificador 
 
 
 Compilador.analizador_lexico.Token Asignacion
 
 
-Compilador.analizador_lexico.Token Identificador 
+Compilador.analizador_lexico.Token Numero entero sin signo
 
 
 Compilador.analizador_lexico.Token Punto y coma
@@ -186,45 +146,31 @@ Compilador.analizador_lexico.Token Punto y coma
 
 Compilador.analizador_lexico.Token Palabra reservada 
 
-Compilador.analizador_lexico.Token Identificador 
+Compilador.analizador_lexico.Token Parentesis que abre
 
-
-Compilador.analizador_lexico.Token Punto y coma
-
-
-Compilador.analizador_lexico.Token Palabra reservada 
 
 Compilador.analizador_lexico.Token Identificador 
 
 
-Compilador.analizador_lexico.Token Punto y coma
+Compilador.analizador_lexico.Token Igualdad
+
+
+Compilador.analizador_lexico.Token Numero entero sin signo
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
 
 
 Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
 
 Compilador.analizador_lexico.Token Identificador 
 
 
-Compilador.analizador_lexico.Token Punto y coma
+Compilador.analizador_lexico.Token Asignacion
 
-
-Compilador.analizador_lexico.Token Palabra reservada 
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Punto y coma
-
-
-Compilador.analizador_lexico.Token Palabra reservada 
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Punto y coma
-
-
-Compilador.analizador_lexico.Token Palabra reservada 
 
 Compilador.analizador_lexico.Token Identificador 
 
@@ -232,20 +178,27 @@ Compilador.analizador_lexico.Token Identificador
 Compilador.analizador_lexico.Token Punto y coma
 
 
+Compilador.analizador_lexico.Token Llave de cierre
+
+
 Compilador.analizador_lexico.Token Palabra reservada 
 
+Compilador.analizador_lexico.Token Llave que abre
+
+
 Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Numero entero sin signo
 
 
 Compilador.analizador_lexico.Token Punto y coma
 
 
-Compilador.analizador_lexico.Token Palabra reservada 
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Punto y coma
+Compilador.analizador_lexico.Token Llave de cierre
 
 
 Compilador.analizador_lexico.Token Palabra reservada 
@@ -253,10 +206,14 @@ Compilador.analizador_lexico.Token Palabra reservada
 Compilador.analizador_lexico.Token Identificador 
 
 
-Compilador.analizador_lexico.Token Punto y coma
+Compilador.analizador_lexico.Token Asignacion
 
 
-Compilador.analizador_lexico.Token Palabra reservada 
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Signo mas
+
 
 Compilador.analizador_lexico.Token Identificador 
 
@@ -279,55 +236,13 @@ Compilador.analizador_lexico.Token Signo mas
 Compilador.analizador_lexico.Token Identificador 
 
 
-Compilador.analizador_lexico.Token Signo mas
+Compilador.analizador_lexico.Token Punto y coma
 
 
 Compilador.analizador_lexico.Token Identificador 
 
 
-Compilador.analizador_lexico.Token Signo mas
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Signo mas
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Signo mas
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Signo mas
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Signo mas
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Signo mas
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Signo mas
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Signo mas
+Compilador.analizador_lexico.Token Asignacion
 
 
 Compilador.analizador_lexico.Token Identificador 
@@ -393,39 +308,16 @@ Compilador.analizador_lexico.Token Llave de cierre
 
 Compilador.analizador_lexico.Token Palabra reservada 
 
-Compilador.analizador_lexico.Token Palabra reservada 
-
-Compilador.analizador_lexico.Token Parentesis que abre
-
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Mayor o igual
-
-
-Compilador.analizador_lexico.Token Numero entero sin signo
-
-
-Compilador.analizador_lexico.Token Parentesis de cierre
-
-
-Compilador.analizador_lexico.Token Palabra reservada 
-
 Compilador.analizador_lexico.Token Llave que abre
 
 
-Compilador.analizador_lexico.Token Palabra reservada 
-
 Compilador.analizador_lexico.Token Identificador 
 
 
-Compilador.analizador_lexico.Token Punto y coma
+Compilador.analizador_lexico.Token Asignacion
 
 
-Compilador.analizador_lexico.Token Palabra reservada 
-
-Compilador.analizador_lexico.Token Identificador 
+Compilador.analizador_lexico.Token Numero entero sin signo
 
 
 Compilador.analizador_lexico.Token Punto y coma
@@ -435,6 +327,72 @@ Compilador.analizador_lexico.Token Llave de cierre
 
 
 Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Signo mas
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Signo mas
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Signo mas
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Incremento
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
 
 Compilador.analizador_lexico.Token Palabra reservada 
 
@@ -453,9 +411,33 @@ Compilador.analizador_lexico.Token Numero entero sin signo
 Compilador.analizador_lexico.Token Parentesis de cierre
 
 
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Division
+
+
+Compilador.analizador_lexico.Token Numero entero sin signo
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
 Compilador.analizador_lexico.Token Palabra reservada 
 
-Compilador.analizador_lexico.Token Llave que abre
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Punto y coma
 
 
 Compilador.analizador_lexico.Token Palabra reservada 
@@ -472,23 +454,6 @@ Compilador.analizador_lexico.Token Identificador
 
 
 Compilador.analizador_lexico.Token Punto y coma
-
-
-Compilador.analizador_lexico.Token Llave de cierre
-
-
-Compilador.analizador_lexico.Token Palabra reservada 
-
-Compilador.analizador_lexico.Token Identificador 
-
-
-Compilador.analizador_lexico.Token Decremento
-
-
-Compilador.analizador_lexico.Token Punto y coma
-
-
-Compilador.analizador_lexico.Token Llave de cierre
 
 
 Compilador.analizador_lexico.Token Palabra reservada 
@@ -502,13 +467,37 @@ Compilador.analizador_lexico.Token Identificador
 Compilador.analizador_lexico.Token Mayor que
 
 
-Compilador.analizador_lexico.Token Numero entero sin signo
+Compilador.analizador_lexico.Token Identificador 
 
 
 Compilador.analizador_lexico.Token Parentesis de cierre
 
 
-Compilador.analizador_lexico.Token Punto y coma
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
 
 
 Compilador.analizador_lexico.Token Palabra reservada 
@@ -519,6 +508,100 @@ Compilador.analizador_lexico.Token Identificador
 Compilador.analizador_lexico.Token Punto y coma
 
 
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Numero entero sin signo
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Numero entero sin signo
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
 Compilador.analizador_lexico.Token Palabra reservada 
 
 Compilador.analizador_lexico.Token Identificador 
@@ -526,6 +609,446 @@ Compilador.analizador_lexico.Token Identificador
 
 Compilador.analizador_lexico.Token Punto y coma
 
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Numero entero sin signo
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Numero entero sin signo
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Numero entero sin signo
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Numero entero sin signo
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Numero entero sin signo
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Asignacion
+
+
+Compilador.analizador_lexico.Token Numero entero sin signo
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Parentesis que abre
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Mayor que
+
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Parentesis de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave que abre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Identificador 
+
+
+Compilador.analizador_lexico.Token Punto y coma
+
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
+
+Compilador.analizador_lexico.Token Llave de cierre
+
+
+Compilador.analizador_lexico.Token Palabra reservada 
 
 Compilador.analizador_lexico.Token Llave de cierre
 

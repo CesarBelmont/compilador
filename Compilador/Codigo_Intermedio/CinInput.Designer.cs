@@ -73,6 +73,7 @@ namespace Compilador.Codigo_Intermedio
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.Titulo);
             this.Name = "CinInput";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CinInput";
             this.ResumeLayout(false);
             this.PerformLayout();

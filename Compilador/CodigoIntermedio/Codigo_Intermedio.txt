@@ -1,116 +1,231 @@
-LD 0 N
-LD 0 Fabrica
-LD 0 Mes
-LD 0 auxProduccion
-LD 0 i
-LD 0 mes1
-LD 0 mes2
-LD 0 mes3
-LD 0 mes4
-LD 0 mes5
-LD 0 mes6
-LD 0 mes7
-LD 0 mes8
-LD 0 mes9
-LD 0 mes10
-LD 0 mes11
-LD 0 mes12
-LD 0 mAno
-LD 0 fAno
-LD mAno
+LD 0 norte
+LD 0 centro
+LD 0 sur
+LD 0 cont
+LD 0 scentro
+LD 0 ssur
+LD 0 snorte
+LD 0 pcentro
+LD 0 menorsur
+LD 0 messur
+LD 0 t
+LD 0 an
+LD 0 ac
+LD 0 as
+LD cont
 LDC 0
 ST
-INI N
-LD i
-LD N
+LD scentro
+LDC 0
 ST
 SUB 0
-INI Fabrica
-INI mes1
-INI mes2
-INI mes3
-INI mes4
-INI mes5
-INI mes6
-INI mes7
-INI mes8
-INI mes9
-INI mes10
-INI mes11
-INI mes12
-LD auxProduccion
-LD mes1
-LD mes2
-ADD
-
-LD mes3
-ADD
-
-LD mes4
-ADD
-
-LD mes5
-ADD
-
-LD mes6
-ADD
-
-LD mes7
-ADD
-
-LD mes8
-ADD
-
-LD mes9
-ADD
-
-LD mes10
-ADD
-
-LD mes11
-ADD
-
-LD mes12
-ADD
-
-ST
-LD auxProduccion
-LDC mAno
-JGT
+INI norte
+INI centro
+INI sur
+LD cont
+LDC 0
+JEQ
 SUB 0 
-LD fAno
-LD Fabrica
+LD menorsur
+LD sur
 ST
-LD mAno
-LD auxProduccion
+JEQ 0
+LD t
+LDC 0
 ST
 LDA 0
-LD auxProduccion
-LDC 3000000
-JGE
-SUB 1 
-OUT  Fabrica
-OUT  auxProduccion
-LDA 1
-LD auxProduccion
-LDC 3000000
-JLT
-SUB 2 true auxProduccion<3000000
-,
-OUT  Fabrica
-OUT  auxProduccion
-LDA 2
-LD i
-LD i
-LDC 1
-SUB
+LD scentro
+LD scentro
+LD centro
+ADD
 
 ST
-LD i
-LDC 0
+LD ssur
+LD ssur
+LD sur
+ADD
+
+ST
+LD snorte
+LD snorte
+LD norte
+ADD
+
+ST
+LD menorsur
+LDC sur
 JGT
-JEQ 0 false i > 0
+SUB 1 
+LD menorsur
+LD sur
+ST
+LD messur
+LD cont
+ST
+JEQ 1
+LD t
+LDC 0
+ST
+LDA 1
+LD an
+LD an
+LD norte
+ADD
+
+ST
+LD ac
+LD ac
+LD centro
+ADD
+
+ST
+LD as
+LD as
+LD sur
+ADD
+
+ST
+LD cont
+LD cont
+LDC 1
+ADD
+
+ST
+LD cont
+LDC 12
+JLT
+JEQ 0 true cont < 12
 ,
-OUT  fAno
-OUT  mAno
+LD pcentro
+LD scentro
+LDC 12
+DIV
+
+ST
+OUT  pcentro
+OUT  messur
+OUT  menorsur
+LD scentro
+LDC ssur
+JGT
+SUB 2 false scentro>ssur
+,
+LD scentro
+LDC snorte
+JGT
+SUB 3 false scentro>snorte
+,
+OUT  scentro
+JEQ 3
+LD t
+LDC 0
+ST
+LDA 3
+JEQ 2
+LD t
+LDC 0
+ST
+LDA 2
+LD ssur
+LDC scentro
+JGT
+SUB 4 false ssur>scentro
+,
+LD ssur
+LDC snorte
+JGT
+SUB 5 false ssur>snorte
+,
+OUT  ssur
+JEQ 5
+LD t
+LDC 0
+ST
+LDA 5
+JEQ 4
+LD t
+LDC 0
+ST
+LDA 4
+LD snorte
+LDC ssur
+JGT
+SUB 6 false snorte>ssur
+,
+LD snorte
+LDC scentro
+JGT
+SUB 7 false snorte>scentro
+,
+OUT  snorte
+JEQ 7
+LD t
+LDC 0
+ST
+LDA 7
+JEQ 6
+LD t
+LDC 0
+ST
+LDA 6
+LD scentro
+LDC snorte
+JGT
+SUB 8 false scentro>snorte
+,
+LD scentro
+LDC ssur
+JGT
+SUB 9 false scentro>ssur
+,
+OUT  scentro
+JEQ 9
+LD t
+LDC 0
+ST
+LDA 9
+JEQ 8
+LD t
+LDC 0
+ST
+LDA 8
+LD as
+LDC an
+JGT
+SUB 10 false as>an
+,
+LD as
+LDC ac
+JGT
+SUB 11 false as>ac
+,
+OUT  sur
+LDA 11
+LDA 10
+LD an
+LDC as
+JGT
+SUB 12 false an>as
+,
+LD an
+LDC ac
+JGT
+SUB 13 false an>ac
+,
+OUT  norte
+LDA 13
+LDA 12
+LD ac
+LDC as
+JGT
+SUB 14 false ac>as
+,
+LD ac
+LDC an
+JGT
+SUB 15 false ac>an
+,
+OUT  centro
+LDA 15
+LDA 14
 HALT
